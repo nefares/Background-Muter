@@ -171,15 +171,13 @@ namespace WinBGMuter
 
                 }
                 AudioDevice.volumeSessionList.Add(cpid, volumeControl);
-
-
-
             }
 
 
         }
         private ISimpleAudioVolume GetVolumeObject(int pid)
         {
+            ReloadAudio();
             if (!AudioDevice.volumeSessionList.ContainsKey(pid))
             {
                 return null;
