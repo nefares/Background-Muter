@@ -27,6 +27,9 @@ namespace WinBGMuter
         private ForegroundProcessManager m_processManager;
 
         private string m_neverMuteList;
+        
+        // @todo untested whether this works
+        private static string m_previous_fname = "wininit";
 
         private void InternalLog(object olog, object? ocolor = null, object? ofont = null)
         {
@@ -70,14 +73,15 @@ namespace WinBGMuter
             InternalLog(log + Environment.NewLine, color, font);
         }
 
+        // stores previous foreground process name for fallback in case of error
         private void RunMuter(int fpid, bool doMute = true)
         {
+            // get a process PID list of processes with an audio channel
             int[] pids = m_volumeMixer.GetPIDs();
 
             Dictionary<int, (string, Process[])> dpids = new Dictionary<int, (string, Process[])>();
 
-            //41ms
-
+            // populate dictionary with KEY=<PID>, VALUE=tuple(<PROCESS_NAME>, <Process>)
             ProcessListListBox.Items.Clear();
             foreach (var pid in pids)
             {
@@ -95,15 +99,26 @@ namespace WinBGMuter
                 }
                 catch (Exception ex)
                 {
-                    LoggingEngine.LogLine("Failed @ " + pid.ToString() + ex.ToString());
+                    LoggingEngine.LogLine("[-] PID access failed at: " + pid.ToString() + ex.ToString());
                 }
             }
 
             if (!doMute)
                 return;
 
-            Process fproc = Process.GetProcessById(fpid);
-            string fname = fproc.ProcessName;
+            // get foreground process. If failed, revert to last process
+            string fname = "";
+            try
+            {
+                Process fproc = Process.GetProcessById(fpid);
+                fname = fproc.ProcessName;
+                m_previous_fname = fname;
+            }
+            catch(Exception ex)
+            {
+                fname = m_previous_fname;
+                LoggingEngine.LogLine($"[-] Process name not found for pid {fpid}. Reverting to {fname}. {ex.ToString()}");
+            }
 
             /*LoggingEngine.LogLine($"- [PIDs({dpids.Count}] - ");
             foreach (var pid in pids)
@@ -115,6 +130,13 @@ namespace WinBGMuter
 
             foreach (var pid in pids)
             {
+                if (!dpids.ContainsKey(pid))
+                {
+                    LoggingEngine.LogLine($"[-] PID with audio channel {pid} not found in process list");
+                    continue;
+
+                }
+                // unmute all foreground processes with the same name
                 if (dpids[pid].Item1 == fname)
                 {
                     LoggingEngine.Log($"[Unmuting] {dpids[pid].Item1}({pid}) ", Color.BlueViolet);
@@ -125,6 +147,7 @@ namespace WinBGMuter
                     }
                     LoggingEngine.Log("\n\r");
                 }
+                // mute all other processes
                 else
                 {
                     if (m_neverMuteList.Contains(dpids[pid].Item1))
@@ -246,7 +269,6 @@ namespace WinBGMuter
             m_processManager.Init();
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-
 
         }
 

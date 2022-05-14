@@ -40,12 +40,26 @@ namespace WinBGMuter
 
         public static void DefaultLogFunction(object input, object? color = null, object? font = null)
         {
-            Console.Write(input);
+            try
+            {
+                Console.Write(input);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public static void DefaultLogLineFunction(object input, object? color = null, object? font = null)
         {
-            Console.WriteLine(input);
-        }
+            try
+            {
+                Console.WriteLine(input);
+            }
+            catch (Exception ex)
+            {
+
+            }
+}
 
         public static void RestoreDefault()
         {
