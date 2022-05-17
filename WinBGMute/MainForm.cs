@@ -18,6 +18,7 @@
 
 
 using System.Diagnostics;
+using System.IO;
 
 namespace WinBGMuter
 {
@@ -27,7 +28,8 @@ namespace WinBGMuter
         private ForegroundProcessManager m_processManager;
 
         private string m_neverMuteList;
-        
+        private bool m_settingsChanged = false;
+
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
 
@@ -172,6 +174,38 @@ namespace WinBGMuter
             }
         }
 
+        private void EnableAutoStart(bool isEnabled)
+        {
+            string autostartPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            string linkDir = autostartPath;
+            string linkName = "Background Muter.url";
+            string fullPath = Path.Combine(linkDir, linkName); 
+
+            if (File.Exists(fullPath))
+            {
+                FileInfo fileInfo = new FileInfo(fullPath);
+                fileInfo.Delete();
+            }
+
+            if (isEnabled)
+            {
+                using (StreamWriter writer = new StreamWriter(fullPath))
+                {
+                    string app = Application.ExecutablePath;
+                    writer.WriteLine("[InternetShortcut]");
+                    writer.WriteLine("URL=file:///" + app);
+                    writer.WriteLine("IconIndex=0");
+                    string icon = app.Replace('\\', '/');
+                    writer.WriteLine("IconFile=" + icon);
+                    writer.Flush();
+                }
+
+                LoggingEngine.LogLine($"Setting autostart @{linkDir} -> {linkName}");
+            }
+
+            
+
+        }
         private void SetDark(Control parent, bool dark)
         {
             Color bgcolor;
@@ -249,15 +283,20 @@ namespace WinBGMuter
             LoggerCheckbox.Checked = Properties.Settings.Default.EnableLogging;
             ConsoleLogging.Checked = Properties.Settings.Default.EnableConsole;
             DarkModeCheckbox.Checked = Properties.Settings.Default.EnableDarkMode;
+            AutostartCheckbox.Checked = Properties.Settings.Default.EnableAutostart;
+
 
             LoggerCheckbox_CheckedChanged(sender, EventArgs.Empty);
             ConsoleLogging_CheckedChanged(sender, EventArgs.Empty);
             DarkModeCheckbox_CheckedChanged(sender, EventArgs.Empty);
+            AutostartCheckbox_CheckedChanged(sender, EventArgs.Empty);
+
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            LoggingEngine.LogLine("Inializing...");
+            LoggingEngine.LogLine("Initializing...");
 
             m_volumeMixer = new VolumeMixer();
             m_processManager = new ForegroundProcessManager();
@@ -270,6 +309,16 @@ namespace WinBGMuter
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
+            Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
+
+            SaveChangesButton.Enabled = false;
+
+        }
+
+        private void Default_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            m_settingsChanged = true;
+            this.SaveChangesButton.Enabled = true;
         }
 
         private void PopulateNeverMuteListBox()
@@ -290,6 +339,16 @@ namespace WinBGMuter
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             TrayIcon.Visible = false;
+
+            if (m_settingsChanged)
+            {
+                var res = MessageBox.Show("Settings changed. Would you like to save?", "Saving...", MessageBoxButtons.YesNo);
+                if (res == DialogResult.Yes)
+                {
+                    SaveChangesButton_Click(sender, e);
+                }
+            }
+
         }
 
         private void NeverMuteTextBox_TextChanged(object sender, EventArgs e)
@@ -303,6 +362,8 @@ namespace WinBGMuter
         private void SaveChangesButton_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
+
+            this.SaveChangesButton.Enabled = false;
 
         }
 
@@ -389,6 +450,20 @@ namespace WinBGMuter
 
         }
 
+        private void AutostartCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableAutostart = AutostartCheckbox.Checked;
+
+            if (AutostartCheckbox.Checked)
+            {
+                EnableAutoStart(true);
+            }
+            else
+            {
+                EnableAutoStart(false);
+            }
+        }
+
         private void ReloadAudioButton_Click(object sender, EventArgs e)
         {
             m_volumeMixer.UnloadAudio(true);
@@ -470,5 +545,13 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
 ","About",MessageBoxButtons.OK);
 
         }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        
+
     }
 }
