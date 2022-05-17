@@ -32,7 +32,7 @@ jobs:
         # Base path for archive files
         path: . # optional, default is .
         # Working directory before zipping
-        directory: \bin\Release\net6.0-windows\WinBGMuter # optional, default is .
+        directory: .\bin\Release\net6.0-windows\WinBGMuter # optional, default is .
         # List of excluded files / directories
         exclusions: WinBGMuter.pdb # optional, default is 
         # Tool to use for archiving
