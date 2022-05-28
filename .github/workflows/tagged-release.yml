@@ -41,9 +41,8 @@ jobs:
     - name: Prep Tag
       env:
         latest_version: ${{ steps.bump-semver.outputs.new_version }}
-        latest_version_num: "${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}.${{ steps.version.outputs.build }}"
-      run: echo $env:latest_version_num 
-           echo $env:latest_version
+        latest_version_num: "${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
+      run: echo $env:latest_version_num $env:latest_version
         
     
     - name: Restore dependencies
