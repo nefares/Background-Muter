@@ -5,7 +5,7 @@
 This tool automatically mutes applications in the background, and unmutes them once they are switched to foreground.
 You can add exceptions for which applications are never muted.
 
-![image](https://user-images.githubusercontent.com/8545128/167307164-3da4a968-c7fa-408d-a90a-458c1d62d5ec.png)
+![image](https://user-images.githubusercontent.com/8545128/170842100-7c0d6dbd-acf8-4d28-b605-8a7abbbc106c.png)
 
 # Features
 * Works out of the box with default settings
