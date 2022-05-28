@@ -40,7 +40,7 @@ jobs:
 
     - name: Prep Tag
       env:
-        latest_version: ${{ steps.bump-semver.outputs.new_version }}
+        latest_version: "${{ steps.bump-semver.outputs.new_version }}"
         latest_version_num: "${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
       run: echo $env:latest_version_num $env:latest_version
         
@@ -48,7 +48,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish -p:Version="$env:latest_version_num" -c Release --no-restore
+      run: echo "$env:latest_version_num" && dotnet publish -p:Version="$env:latest_version_num" -c Release --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Zip Release
