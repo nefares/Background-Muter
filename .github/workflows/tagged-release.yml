@@ -58,7 +58,7 @@ jobs:
         # Base path for archive files
         path: . # optional, default is .
         # Working directory before zipping
-        directory: .\WinBGMute\bin\publish\WinBGMuter # optional, default is .
+        directory: .\WinBGMute\bin\Release\net6.0-windows\publish\ # optional, default is .
         # List of excluded files / directories
         exclusions: WinBGMuter.pdb # optional, default is 
         # Tool to use for archiving
