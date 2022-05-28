@@ -29,9 +29,11 @@ namespace WinBGMuter
 {
     internal class ForegroundProcessManager
     {
+        //WinAPI to translate PID from hWND
         [DllImport("User32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern UInt32 GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
+        //WinAPI to set a hook for when a window size changes
         [DllImport("User32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr SetWinEventHook(UInt32 eventMin,
             UInt32 eventMax,
@@ -41,6 +43,7 @@ namespace WinBGMuter
             UInt32 idThread,
             UInt32 dwFlags);
 
+        //WinAPI to unhook win event
         [DllImport("User32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 

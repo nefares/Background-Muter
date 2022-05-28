@@ -29,6 +29,7 @@ namespace WinBGMuter
 
         private string m_neverMuteList;
         private bool m_settingsChanged = false;
+        private bool m_enableMiniStart = false;
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
@@ -174,12 +175,25 @@ namespace WinBGMuter
             }
         }
 
+        protected override void SetVisibleCore(bool value)
+        {
+            if (m_enableMiniStart)
+            {
+                m_enableMiniStart = false;
+                value = false;
+                if (!this.IsHandleCreated) CreateHandle();
+            }
+            base.SetVisibleCore(value);
+        }
+
         private void EnableAutoStart(bool isEnabled)
         {
             string autostartPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
             string linkDir = autostartPath;
-            string linkName = "Background Muter.url";
-            string fullPath = Path.Combine(linkDir, linkName); 
+            string linkName = "Background Muter.lnk";
+            string fullPath = Path.Combine(linkDir, linkName);
+            string programPath = Application.ExecutablePath;
+            string programArgs = "--startMinimized";
 
             if (File.Exists(fullPath))
             {
@@ -189,21 +203,9 @@ namespace WinBGMuter
 
             if (isEnabled)
             {
-                using (StreamWriter writer = new StreamWriter(fullPath))
-                {
-                    string app = Application.ExecutablePath;
-                    writer.WriteLine("[InternetShortcut]");
-                    writer.WriteLine("URL=file:///" + app);
-                    writer.WriteLine("IconIndex=0");
-                    string icon = app.Replace('\\', '/');
-                    writer.WriteLine("IconFile=" + icon);
-                    writer.Flush();
-                }
-
+                ShortcutManager.CreateShortcut(this.Text, programPath, linkName, linkDir, programArgs);
                 LoggingEngine.LogLine($"Setting autostart @{linkDir} -> {linkName}");
             }
-
-            
 
         }
         private void SetDark(Control parent, bool dark)
@@ -256,8 +258,23 @@ namespace WinBGMuter
             }
         }
 
-        public MainForm()
+        public MainForm(string[] args)
         {
+            if (args.Length != 0)
+            {
+                foreach (string arg in args)
+                {
+                    switch (arg)
+                    {
+                        case "--startMinimized":
+                            m_enableMiniStart = true;
+                            break;
+                        default:
+                            MessageBox.Show($"Unknown argument {arg}");
+                            break;
+                    }
+                }
+            }
             InitializeComponent();
         }
 
@@ -313,6 +330,11 @@ namespace WinBGMuter
 
             SaveChangesButton.Enabled = false;
 
+            if (m_enableMiniStart)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.MainForm_Resize(sender, e);
+            }
         }
 
         private void Default_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

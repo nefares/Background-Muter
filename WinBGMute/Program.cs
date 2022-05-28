@@ -26,13 +26,13 @@ namespace WinBGMuter
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Process myproc = Process.GetCurrentProcess();
             myproc.PriorityClass = ProcessPriorityClass.BelowNormal;
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(args));
         }
     }
 }

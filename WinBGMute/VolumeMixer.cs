@@ -163,14 +163,18 @@ namespace WinBGMuter
 
                 if (AudioDevice.volumeSessionList.ContainsKey(cpid))
                 {
+                    AudioDevice.volumeSessionList[cpid] = volumeControl;
+
+                    /*
                     LoggingEngine.LogLine($"[!] PID {cpid} Exists ");
                     AudioDevice.volumeSessionList.Remove(cpid);
+                    */
                 }
                 else
                 {
+                    AudioDevice.volumeSessionList.Add(cpid, volumeControl);
 
                 }
-                AudioDevice.volumeSessionList.Add(cpid, volumeControl);
             }
 
 
