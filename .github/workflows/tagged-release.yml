@@ -69,7 +69,7 @@ jobs:
       
     - name: Run
       shell: powershell
-      run: Start-Process .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe
+      run: Start-Process -FilePath .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe -WorkingDirectory .\WinBGMute\bin\Release\net6.0-windows\publish\
 
     - name: Sleep
       shell: powershell
