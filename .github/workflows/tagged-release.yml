@@ -38,6 +38,8 @@ jobs:
         exclusions: WinBGMuter.pdb # optional, default is 
         # Tool to use for archiving
         type: zip # optional, default is zip
+    - name: Test
+      run: file WinBGMuter.zip
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@v1.2.1
       with:
