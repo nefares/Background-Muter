@@ -68,9 +68,13 @@ jobs:
     
       
     - name: Run
-      shell: cmd
-      run: .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe
+      shell: powershell
+      run: Start-Process -NoNewWindow .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe
 
+    - name: Sleep
+      shell: powershell
+      run: Start-Sleep -s 10
+      
     - name: Screenshot
       uses: OrbitalOwen/desktop-screenshot-action@0.1
       with:
