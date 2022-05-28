@@ -7,11 +7,34 @@ on:
   workflow_dispatch:
   
 jobs:
-  build:
-
+  publish:
     runs-on: windows-latest
-
+    
     steps:
+    - uses: actions-ecosystem/action-get-latest-tag@v1
+      id: get-latest-tag
+      with:
+        semver_only: true
+
+    - uses: actions-ecosystem/action-bump-semver@v1
+      id: bump-semver
+      with:
+        current_version: ${{ steps.get-latest-tag.outputs.tag }}
+        level: minor
+        
+    - uses: madhead/semver-utils@latest
+      id: version
+      with:
+        # A version to work with
+        version: ${{ steps.bump-semver.outputs.new_version }}
+
+    - name: Prep Tag
+      env:
+        latest_version: ${{ steps.bump-semver.outputs.new_version }}
+        latest_version_num: "${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}.${{ steps.version.outputs.build }}"
+      run: echo $env:latest_version_num 
+           echo $env:latest_version
+        
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
@@ -20,7 +43,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet publish -p:Version=$env:latest_version_num -c Release --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Zip Release
@@ -33,7 +56,7 @@ jobs:
         # Base path for archive files
         path: . # optional, default is .
         # Working directory before zipping
-        directory: . # optional, default is .
+        directory: .\WinBGMute\bin\publish\WinBGMuter # optional, default is .
         # List of excluded files / directories
         exclusions: WinBGMuter.pdb # optional, default is 
         # Tool to use for archiving
@@ -44,9 +67,9 @@ jobs:
       uses: marvinpinto/action-automatic-releases@v1.2.1
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
+        automatic_release_tag: "$env:latest_version"
         prerelease: true
-        title: "Development Build"
+        title: "$env:latest_version"
         files: |
           WinBGMuter.zip
 
