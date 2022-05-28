@@ -65,6 +65,10 @@ jobs:
         type: zip # optional, default is zip
     - name: Test
       run: file WinBGMuter.zip
+      
+    - name: Run
+      run: .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe
+
     - name: Screenshot
       uses: OrbitalOwen/desktop-screenshot-action@0.1
       with:
