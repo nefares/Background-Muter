@@ -125,58 +125,67 @@ namespace WinBGMuter
         }
         public void ReloadAudio(bool reloadDevice = false)
         {
-            if (reloadDevice)
+            try
             {
-                AudioDevice.volumeSessionList = new Dictionary<int, ISimpleAudioVolume?>();
-
-                AudioDevice.deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
-                //not efficient
-                AudioDevice.deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out AudioDevice.speakers);
-
-
-                // activate the session manager. we need the enumerator
-                AudioDevice.IID_IAudioSessionManager2 = typeof(IAudioSessionManager2).GUID;
-
-                AudioDevice.speakers.Activate(ref AudioDevice.IID_IAudioSessionManager2, 0, IntPtr.Zero, out AudioDevice.o);
-                AudioDevice.mgr = (IAudioSessionManager2)AudioDevice.o;
-
-
-
-            }
-
-            //code takes too long
-            AudioDevice.mgr.GetSessionEnumerator(out AudioDevice.sessionEnumerator);
-            AudioDevice.sessionEnumerator.GetCount(out AudioDevice.count);
-
-
-
-            AudioDevice.volumeSessionList.Clear();
-            ISimpleAudioVolume volumeControl = null;
-            for (int i = 0; i < AudioDevice.count; i++)
-            {
-                IAudioSessionControl2 ctl;
-                AudioDevice.sessionEnumerator.GetSession(i, out ctl);
-                int cpid;
-                ctl.GetProcessId(out cpid);
-
-                volumeControl = ctl as ISimpleAudioVolume;
-
-                if (AudioDevice.volumeSessionList.ContainsKey(cpid))
+                if (reloadDevice)
                 {
-                    AudioDevice.volumeSessionList[cpid] = volumeControl;
+                    AudioDevice.volumeSessionList = new Dictionary<int, ISimpleAudioVolume?>();
 
-                    /*
-                    LoggingEngine.LogLine($"[!] PID {cpid} Exists ");
-                    AudioDevice.volumeSessionList.Remove(cpid);
-                    */
+                    AudioDevice.deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
+                    //not efficient
+                    AudioDevice.deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out AudioDevice.speakers);
+
+
+                    // activate the session manager. we need the enumerator
+                    AudioDevice.IID_IAudioSessionManager2 = typeof(IAudioSessionManager2).GUID;
+
+                    AudioDevice.speakers.Activate(ref AudioDevice.IID_IAudioSessionManager2, 0, IntPtr.Zero, out AudioDevice.o);
+                    AudioDevice.mgr = (IAudioSessionManager2)AudioDevice.o;
+                }
+
+                //code takes too long
+                AudioDevice.mgr.GetSessionEnumerator(out AudioDevice.sessionEnumerator);
+                AudioDevice.sessionEnumerator.GetCount(out AudioDevice.count);
+
+
+
+                AudioDevice.volumeSessionList.Clear();
+                ISimpleAudioVolume volumeControl = null;
+                for (int i = 0; i < AudioDevice.count; i++)
+                {
+                    IAudioSessionControl2 ctl;
+                    AudioDevice.sessionEnumerator.GetSession(i, out ctl);
+                    int cpid;
+                    ctl.GetProcessId(out cpid);
+
+                    volumeControl = ctl as ISimpleAudioVolume;
+
+                    if (AudioDevice.volumeSessionList.ContainsKey(cpid))
+                    {
+                        AudioDevice.volumeSessionList[cpid] = volumeControl;
+
+                        /*
+                        LoggingEngine.LogLine($"[!] PID {cpid} Exists ");
+                        AudioDevice.volumeSessionList.Remove(cpid);
+                        */
+                    }
+                    else
+                    {
+                        AudioDevice.volumeSessionList.Add(cpid, volumeControl);
+
+                    }
+                }
+            } catch (Exception ex)
+            {
+                if (MessageBox.Show($"Audio Initiatlization failed: {ex.Message}","Error",MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+                {
+                    ReloadAudio(reloadDevice);
                 }
                 else
                 {
-                    AudioDevice.volumeSessionList.Add(cpid, volumeControl);
-
+                    System.Windows.Forms.Application.Exit();
                 }
             }
-
 
         }
         private ISimpleAudioVolume GetVolumeObject(int pid)

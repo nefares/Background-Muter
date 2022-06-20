@@ -19,17 +19,55 @@
 
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace WinBGMuter
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// used for dark mode
+        /// </summary>
+        public enum DWMWINDOWATTRIBUTE
+        {
+            DWMWA_NCRENDERING_ENABLED,
+            DWMWA_NCRENDERING_POLICY,
+            DWMWA_TRANSITIONS_FORCEDISABLED,
+            DWMWA_ALLOW_NCPAINT,
+            DWMWA_CAPTION_BUTTON_BOUNDS,
+            DWMWA_NONCLIENT_RTL_LAYOUT,
+            DWMWA_FORCE_ICONIC_REPRESENTATION,
+            DWMWA_FLIP3D_POLICY,
+            DWMWA_EXTENDED_FRAME_BOUNDS,
+            DWMWA_HAS_ICONIC_BITMAP,
+            DWMWA_DISALLOW_PEEK,
+            DWMWA_EXCLUDED_FROM_PEEK,
+            DWMWA_CLOAK,
+            DWMWA_CLOAKED,
+            DWMWA_FREEZE_REPRESENTATION,
+            DWMWA_PASSIVE_UPDATE_MODE,
+            DWMWA_USE_HOSTBACKDROPBRUSH,
+            DWMWA_USE_IMMERSIVE_DARK_MODE = 20,
+            DWMWA_WINDOW_CORNER_PREFERENCE = 33,
+            DWMWA_BORDER_COLOR,
+            DWMWA_CAPTION_COLOR,
+            DWMWA_TEXT_COLOR,
+            DWMWA_VISIBLE_FRAME_BORDER_THICKNESS,
+            DWMWA_SYSTEMBACKDROP_TYPE,
+            DWMWA_LAST
+        };
+
+        // used for dark mode
+        [DllImport("dwmapi.dll", PreserveSig = true)]
+        public static extern int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue, int attrSize);
+
         private VolumeMixer m_volumeMixer;
         private ForegroundProcessManager m_processManager;
 
         private string m_neverMuteList;
         private bool m_settingsChanged = false;
         private bool m_enableMiniStart = false;
+        private bool m_enableDemo = false;
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
@@ -208,8 +246,18 @@ namespace WinBGMuter
             }
 
         }
+
+        /// <summary>
+        /// Recursively set dark mode for all underlaying controls by storing the original colors in the control's tags
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="dark"></param>
         private void SetDark(Control parent, bool dark)
         {
+            // only works on main window
+            int USE_DARK_MODE = dark ? 1 : 0;
+            DwmSetWindowAttribute(parent.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref USE_DARK_MODE, sizeof(int));
+
             Color bgcolor;
             Color fgcolor;
 
@@ -255,6 +303,15 @@ namespace WinBGMuter
 
                 if (c.Controls.Count > 0)
                     SetDark(c, dark);
+
+                parent.Refresh();
+
+                // if main window, force redraw as refresh does not work
+                if (parent.Parent == null)
+                {
+                    parent.Hide();
+                    parent.Show();
+                }
             }
         }
 
@@ -268,6 +325,9 @@ namespace WinBGMuter
                     {
                         case "--startMinimized":
                             m_enableMiniStart = true;
+                            break;
+                        case "--demo":
+                            m_enableDemo = true;
                             break;
                         default:
                             MessageBox.Show($"Unknown argument {arg}");
@@ -285,10 +345,16 @@ namespace WinBGMuter
 
         private void OnProcessExit(object sender, EventArgs e)
         {
-            m_processManager.CleanUp();
-            foreach (var pid in m_volumeMixer.GetPIDs())
+            try
             {
-                m_volumeMixer.SetApplicationMute(pid, false);
+                m_processManager.CleanUp();
+                foreach (var pid in m_volumeMixer.GetPIDs())
+                {
+                    m_volumeMixer.SetApplicationMute(pid, false);
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"Cleanup failed: {ex.Message}", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
@@ -329,6 +395,11 @@ namespace WinBGMuter
             Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
 
             SaveChangesButton.Enabled = false;
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            this.Text += " - v" + fvi.ProductVersion;
 
             if (m_enableMiniStart)
             {
@@ -384,9 +455,9 @@ namespace WinBGMuter
         private void SaveChangesButton_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
-
+            m_settingsChanged = false;   
             this.SaveChangesButton.Enabled = false;
-
+            
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

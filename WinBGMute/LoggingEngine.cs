@@ -59,7 +59,8 @@ namespace WinBGMuter
             {
 
             }
-}
+
+        }
 
         public static void RestoreDefault()
         {
@@ -88,7 +89,6 @@ namespace WinBGMuter
                 return;
             m_logLineFunction(input, color, font);
         }
-
 
     }
 }
