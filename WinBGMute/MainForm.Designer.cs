@@ -74,6 +74,9 @@ namespace WinBGMuter
             this.LoggerCheckbox = new System.Windows.Forms.CheckBox();
             this.DarkModeCheckbox = new System.Windows.Forms.CheckBox();
             this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
+            this.MuteConditionGroupBox = new System.Windows.Forms.GroupBox();
+            this.MinimizedRadioButton = new System.Windows.Forms.RadioButton();
+            this.BackGroundRadioButton = new System.Windows.Forms.RadioButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.LastLogLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusBox = new System.Windows.Forms.ToolStripStatusLabel();
@@ -95,6 +98,7 @@ namespace WinBGMuter
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.MuteConditionGroupBox.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -355,6 +359,7 @@ namespace WinBGMuter
             this.tableLayoutPanel5.Controls.Add(this.LoggerCheckbox, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.DarkModeCheckbox, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.AutostartCheckbox, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.MuteConditionGroupBox, 0, 4);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 19);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -413,6 +418,41 @@ namespace WinBGMuter
             this.AutostartCheckbox.Text = "Enable Autostart";
             this.AutostartCheckbox.UseVisualStyleBackColor = true;
             this.AutostartCheckbox.CheckedChanged += new System.EventHandler(this.AutostartCheckbox_CheckedChanged);
+            // 
+            // MuteConditionGroupBox
+            // 
+            this.MuteConditionGroupBox.Controls.Add(this.MinimizedRadioButton);
+            this.MuteConditionGroupBox.Controls.Add(this.BackGroundRadioButton);
+            this.MuteConditionGroupBox.Location = new System.Drawing.Point(3, 104);
+            this.MuteConditionGroupBox.Name = "MuteConditionGroupBox";
+            this.MuteConditionGroupBox.Size = new System.Drawing.Size(113, 62);
+            this.MuteConditionGroupBox.TabIndex = 16;
+            this.MuteConditionGroupBox.TabStop = false;
+            this.MuteConditionGroupBox.Text = "MuteCondition";
+            // 
+            // MinimizedRadioButton
+            // 
+            this.MinimizedRadioButton.AutoSize = true;
+            this.MinimizedRadioButton.Location = new System.Drawing.Point(10, 36);
+            this.MinimizedRadioButton.Name = "MinimizedRadioButton";
+            this.MinimizedRadioButton.Size = new System.Drawing.Size(80, 19);
+            this.MinimizedRadioButton.TabIndex = 1;
+            this.MinimizedRadioButton.TabStop = true;
+            this.MinimizedRadioButton.Text = "Minimized";
+            this.MinimizedRadioButton.UseVisualStyleBackColor = true;
+            this.MinimizedRadioButton.CheckedChanged += new System.EventHandler(this.MinimizedRadioButton_CheckedChanged);
+            // 
+            // BackGroundRadioButton
+            // 
+            this.BackGroundRadioButton.AutoSize = true;
+            this.BackGroundRadioButton.Location = new System.Drawing.Point(10, 16);
+            this.BackGroundRadioButton.Name = "BackGroundRadioButton";
+            this.BackGroundRadioButton.Size = new System.Drawing.Size(90, 19);
+            this.BackGroundRadioButton.TabIndex = 0;
+            this.BackGroundRadioButton.TabStop = true;
+            this.BackGroundRadioButton.Text = "BackGround";
+            this.BackGroundRadioButton.UseVisualStyleBackColor = true;
+            this.BackGroundRadioButton.CheckedChanged += new System.EventHandler(this.BackGroundRadioButton_CheckedChanged);
             // 
             // statusStrip1
             // 
@@ -515,6 +555,8 @@ namespace WinBGMuter
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            this.MuteConditionGroupBox.ResumeLayout(false);
+            this.MuteConditionGroupBox.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.TrayContextMenu.ResumeLayout(false);
@@ -559,5 +601,8 @@ namespace WinBGMuter
         private CheckBox ConsoleLogging;
         private CheckBox LoggerCheckbox;
         private CheckBox AutostartCheckbox;
+        private GroupBox MuteConditionGroupBox;
+        private RadioButton MinimizedRadioButton;
+        private RadioButton BackGroundRadioButton;
     }
 }

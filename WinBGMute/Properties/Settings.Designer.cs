@@ -82,5 +82,20 @@ namespace WinBGMuter.Properties {
                 this["EnableAutostart"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BackGround")]
+        public string MuteCondition
+        {
+            get
+            {
+                return ((string)(this["MuteCondition"]));
+            }
+            set
+            {
+                this["MuteCondition"] = value;
+            }
+        }
     }
 }
