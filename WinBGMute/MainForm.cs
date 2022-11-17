@@ -246,32 +246,36 @@ namespace WinBGMuter
                     }
                     else
                     {
-
-
-                        //m_volumeMixer.SetApplicationMute(audio_pid, true);
-
-                        /* code to mute based on whtether window is minimized or in the background */
-                        if (m_isMuteConditionBackground)
+                        bool force_mute = false;
+                        // if not on mute list and 
+                        if (!m_isMuteConditionBackground)
                         {
-                            m_volumeMixer.SetApplicationMute(audio_pid, true);
-                            InlineMuteProcList(audio_proc_list, true);
+                            // if minimize option AND iconic
 
-                        }
-                        else
-                        {
-                            // How does this handle multi window processes? 
+                            // TODO: fix multi window muting
                             IntPtr handle = Process.GetProcessById(audio_pid).MainWindowHandle;//Error occurs for "Handle", not "MainWindowHandle"
-                            if (IsIconic(handle))
+                            if (!IsIconic(handle))
                             {
-                                m_volumeMixer.SetApplicationMute(audio_pid, true);
-                                log_muted += "[M]";
+                                // if minimize option AND NOT minimized: SKIP
+                                log_skipped += "[M]" + audio_pname + ", ";
+
                             }
                             else
                             {
-                                m_volumeMixer.SetApplicationMute(audio_pid, false);
-                                log_muted += "[N]";
+                                // if minimize option and minimzed, do mute
+                                force_mute = true;
                             }
+
                         }
+
+                        //mute the process and similar-named processes. Note that this may break multi-window muting 
+                        // TODO: fix multi-window muting
+                        if (force_mute)
+                        {
+                            m_volumeMixer.SetApplicationMute(audio_pid, true);
+                            InlineMuteProcList(audio_proc_list, true);
+                        }
+
 
                         log_muted += audio_pname + ", ";
                     }
@@ -747,15 +751,17 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         {
             Properties.Settings.Default.IsMuteConditionBackground = true;
             m_isMuteConditionBackground = true; 
-            RunMuter(-1);
         }
 
         private void MinimizedRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = false;
             m_isMuteConditionBackground = false;
+        }
 
-            RunMuter(-1);
+        private void MuteConditionGroupBox_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

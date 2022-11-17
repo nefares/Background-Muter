@@ -376,7 +376,7 @@ namespace WinBGMuter
             // 
             this.ConsoleLogging.AutoSize = true;
             this.ConsoleLogging.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ConsoleLogging.Location = new System.Drawing.Point(3, 53);
+            this.ConsoleLogging.Location = new System.Drawing.Point(3, 28);
             this.ConsoleLogging.Name = "ConsoleLogging";
             this.ConsoleLogging.Size = new System.Drawing.Size(119, 19);
             this.ConsoleLogging.TabIndex = 14;
@@ -388,7 +388,7 @@ namespace WinBGMuter
             // 
             this.LoggerCheckbox.AutoSize = true;
             this.LoggerCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LoggerCheckbox.Location = new System.Drawing.Point(3, 28);
+            this.LoggerCheckbox.Location = new System.Drawing.Point(3, 53);
             this.LoggerCheckbox.Name = "LoggerCheckbox";
             this.LoggerCheckbox.Size = new System.Drawing.Size(119, 19);
             this.LoggerCheckbox.TabIndex = 13;
@@ -429,13 +429,14 @@ namespace WinBGMuter
             this.MuteConditionGroupBox.TabIndex = 16;
             this.MuteConditionGroupBox.TabStop = false;
             this.MuteConditionGroupBox.Text = "MuteCondition";
+            this.MuteConditionGroupBox.Enter += new System.EventHandler(this.MuteConditionGroupBox_Enter);
             // 
             // MinimizedRadioButton
             // 
             this.MinimizedRadioButton.AutoSize = true;
             this.MinimizedRadioButton.Location = new System.Drawing.Point(10, 36);
             this.MinimizedRadioButton.Name = "MinimizedRadioButton";
-            this.MinimizedRadioButton.Size = new System.Drawing.Size(80, 19);
+            this.MinimizedRadioButton.Size = new System.Drawing.Size(81, 19);
             this.MinimizedRadioButton.TabIndex = 1;
             this.MinimizedRadioButton.TabStop = true;
             this.MinimizedRadioButton.Text = "Minimized";
