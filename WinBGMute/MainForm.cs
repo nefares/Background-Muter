@@ -69,6 +69,7 @@ namespace WinBGMuter
         private bool m_enableMiniStart = false;
         private bool m_enableDemo = false;
         private int m_errorCount = 0;
+        private bool m_isMuteConditionBackground = true;
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
@@ -246,25 +247,32 @@ namespace WinBGMuter
                     else
                     {
 
-                        if (Properties.Settings.Default.MuteCondition == "BackGround")
+
+                        //m_volumeMixer.SetApplicationMute(audio_pid, true);
+
+                        /* code to mute based on whtether window is minimized or in the background */
+                        if (m_isMuteConditionBackground)
                         {
                             m_volumeMixer.SetApplicationMute(audio_pid, true);
+                            InlineMuteProcList(audio_proc_list, true);
+
                         }
                         else
                         {
-                            /* How does this handle multi window processes? */
+                            // How does this handle multi window processes? 
                             IntPtr handle = Process.GetProcessById(audio_pid).MainWindowHandle;//Error occurs for "Handle", not "MainWindowHandle"
                             if (IsIconic(handle))
                             {
-                                m_volumeMixer.SetApplicationMute(pid, true);
+                                m_volumeMixer.SetApplicationMute(audio_pid, true);
+                                log_muted += "[M]";
                             }
                             else
                             {
-                                m_volumeMixer.SetApplicationMute(pid, false);
+                                m_volumeMixer.SetApplicationMute(audio_pid, false);
+                                log_muted += "[N]";
                             }
                         }
 
-                        InlineMuteProcList(audio_proc_list, true);
                         log_muted += audio_pname + ", ";
                     }
                 }
@@ -438,8 +446,18 @@ namespace WinBGMuter
             DarkModeCheckbox.Checked = Properties.Settings.Default.EnableDarkMode;
             AutostartCheckbox.Checked = Properties.Settings.Default.EnableAutostart;
 
-            if (Properties.Settings.Default.MuteCondition == "BackGround") BackGroundRadioButton.Checked = true;
-            else MinimizedRadioButton.Checked = true;
+            if (Properties.Settings.Default.IsMuteConditionBackground == true)
+            {
+                BackGroundRadioButton.Checked = true;
+                m_isMuteConditionBackground = true;
+            }
+
+            else
+            {
+                MinimizedRadioButton.Checked = true;
+                m_isMuteConditionBackground = false;
+
+            }
 
             LoggerCheckbox_CheckedChanged(sender, EventArgs.Empty);
             ConsoleLogging_CheckedChanged(sender, EventArgs.Empty);
@@ -727,13 +745,16 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         
         private void BackGroundRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.MuteCondition = "BackGround";
+            Properties.Settings.Default.IsMuteConditionBackground = true;
+            m_isMuteConditionBackground = true; 
             RunMuter(-1);
         }
 
         private void MinimizedRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.MuteCondition = "Minimized";
+            Properties.Settings.Default.IsMuteConditionBackground = false;
+            m_isMuteConditionBackground = false;
+
             RunMuter(-1);
         }
     }
