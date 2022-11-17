@@ -68,6 +68,7 @@ namespace WinBGMuter
         private bool m_settingsChanged = false;
         private bool m_enableMiniStart = false;
         private bool m_enableDemo = false;
+        private int m_errorCount = 0;
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
@@ -114,40 +115,78 @@ namespace WinBGMuter
             InternalLog(log + Environment.NewLine, color, font);
         }
 
+        private void HandleError(Exception ex, object? data=null)
+        {
+            m_errorCount += 1;
+            if (ex.InnerException is InvalidOperationException)
+            {
+                int pid = (data is int) ? (int)data : -1;
+                LoggingEngine.LogLine("[-] Process access failed for PID " + pid.ToString() + " @" + ex.Source, Color.Red);
+                m_volumeMixer.ReloadAudio(true);
+
+            }
+
+            else
+            {
+                LoggingEngine.LogLine("[-] Unknown error! " + ex.ToString(), Color.Red);
+                m_volumeMixer.ReloadAudio(true);
+
+            }
+
+        }
         // stores previous foreground process name for fallback in case of error
         private void RunMuter(int fpid, bool doMute = true)
         {
-            // get a process PID list of processes with an audio channel
-            int[] pids = m_volumeMixer.GetPIDs();
+            Dictionary<int, (string, Process[])> audio_procs = new Dictionary<int, (string, Process[])>();
 
-            Dictionary<int, (string, Process[])> dpids = new Dictionary<int, (string, Process[])>();
-
-            // populate dictionary with KEY=<PID>, VALUE=tuple(<PROCESS_NAME>, <Process>)
+            // clear process list
             ProcessListListBox.Items.Clear();
-            foreach (var pid in pids)
+
+            // get a process PID list of processes with an audio channel
+            int[] audio_pids = m_volumeMixer.GetPIDs();
+
+            // populate dictionary audio_procs for each PID in audio_pids with KEY=<PID>, VALUE=tuple(<PROCESS_NAME>, <Process>)
+            foreach (var pid in audio_pids)
             {
                 try
-                {
+                {         
                     Process proc = Process.GetProcessById(pid);
                     string pname = proc.ProcessName;
 
+                    //add proc name to ListBox if it will be muted
                     if (!NeverMuteListBox.Items.Contains(pname))
                     {
                         ProcessListListBox.Items.Add(pname);
                     }
+
+                    //gather all processes of the same name as the process of the current pid (workaround for some programs)
                     Process[] procs_similar = Process.GetProcessesByName(pname);
-                    dpids.Add(pid, (pname, procs_similar));
+
+                    //add all processes of the same name as pname to the audio_procs corresponding to PID
+                    audio_procs.Add(pid, (pname, procs_similar));
                 }
                 catch (Exception ex)
                 {
-                    LoggingEngine.LogLine("[-] PID access failed at: " + pid.ToString() + ex.ToString());
+                    HandleError(ex, (object)pid);
+                }
+                finally
+                {
+
+                    if (!audio_procs.ContainsKey(pid))
+                    {
+                        LoggingEngine.LogLine($"[-] PID with audio channel {pid} not found in process list (most likely due to an error)");
+                        //throw new Exception();
+                        Process[] empty_procs = { };
+                        audio_procs.Add(pid, ("", empty_procs));
+                        
+                    }
                 }
             }
 
             if (!doMute)
                 return;
 
-            // get foreground process. If failed, revert to last process
+            // get foreground process object. If failed (e.g. process exited), revert to last process
             string fname = "";
             try
             {
@@ -158,49 +197,58 @@ namespace WinBGMuter
             catch(Exception ex)
             {
                 fname = m_previous_fname;
-                LoggingEngine.LogLine($"[-] Process name not found for pid {fpid}. Reverting to {fname}. {ex.ToString()}");
+                LoggingEngine.LogLine($"[!] Process name not found for pid {fpid}. Reverting to {fname}. {ex.ToString()}",Color.Orange);
             }
 
-            /*LoggingEngine.LogLine($"- [PIDs({dpids.Count}] - ");
-            foreach (var pid in pids)
-            {
-                LoggingEngine.Log("#", Color.Brown);
-                LoggingEngine.Log(dpids[pid].Item1, Color.Red);
-                LoggingEngine.LogLine($" - {dpids[pid].Item2.Length} - {dpids[pid].Item2[0].MainWindowTitle}");
-            }*/
 
-            foreach (var pid in pids)
+            //Inline function to mute/unmute a list of processes
+            Func<Process[], bool, string> InlineMuteProcList = (procs, isMuted) =>
             {
-                if (!dpids.ContainsKey(pid))
+                string log_output = "";
+                foreach (var fproc_similar in procs)
                 {
-                    LoggingEngine.LogLine($"[-] PID with audio channel {pid} not found in process list");
-                    continue;
+                    var fproc_similar_pid = fproc_similar.Id;
+                    m_volumeMixer.SetApplicationMute(fproc_similar_pid, isMuted);
+                    log_output +=".";
+                }
+                //log_output += "\r\n";
+                return log_output;
+            };
 
-                }
-                // unmute all foreground processes with the same name
-                if (dpids[pid].Item1 == fname)
+            string log_skipped = "";
+            string log_muted = "";
+
+            foreach (var item in audio_procs)
+            {
+                var audio_pid = item.Key;
+                var audio_pname = item.Value.Item1;
+                var audio_proc_list = item.Value.Item2;
+
+                // check if this is the foreground process
+                // if yes unmute all foreground processes with the same name
+                if (audio_pname == fname)
                 {
-                    LoggingEngine.Log($"[Unmuting] {dpids[pid].Item1}({pid}) ", Color.BlueViolet);
-                    foreach (var fproc_similar in dpids[pid].Item2)
-                    {
-                        m_volumeMixer.SetApplicationMute(fproc_similar.Id, false);
-                        LoggingEngine.Log(".");
-                    }
-                    LoggingEngine.Log("\n\r");
+                    string log_output = InlineMuteProcList(audio_proc_list, false);
+                    LoggingEngine.LogLine($"[+] Unmuting foreground process {audio_pname}({audio_pid}) {log_output} ", Color.BlueViolet);
                 }
-                // mute all other processes
+                // mute all other processes (with an audio channel), except  the ones on the neverMuteList
                 else
                 {
-                    if (m_neverMuteList.Contains(dpids[pid].Item1))
+                    if (m_neverMuteList.Contains(audio_pname))
                     {
-
+                        //LoggingEngine.LogLine($" [!] Process {audio_pname}({audio_pid}) skipped ", Color.BlueViolet);
+                        log_skipped += audio_pname + ", ";
                     }
                     else
                     {
-                        m_volumeMixer.SetApplicationMute(pid, true);
+                        m_volumeMixer.SetApplicationMute(audio_pid, true);
+                        InlineMuteProcList(audio_proc_list, true);
+                        log_muted += audio_pname + ", ";
                     }
                 }
             }
+
+            LoggingEngine.LogLine($"[+] Summary: skipped ({log_skipped}) and muted ({log_muted})");
         }
 
         private void MuterCallback(object state)
@@ -397,7 +445,15 @@ namespace WinBGMuter
             SaveChangesButton.Enabled = false;
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            if (assembly.Location.Length == 0)
+            {
+                MessageBox.Show("Assembly Location not detected. This may be due to a non-standard build process. Beware that this may break some features.");
+            }
+
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+
+
 
             this.Text += " - v" + fvi.ProductVersion;
 
@@ -435,7 +491,7 @@ namespace WinBGMuter
 
             if (m_settingsChanged)
             {
-                var res = MessageBox.Show("Settings changed. Would you like to save?", "Saving...", MessageBoxButtons.YesNo);
+                var res = MessageBox.Show("Settings changed. Would you like to save?", "Saving...", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
                     SaveChangesButton_Click(sender, e);

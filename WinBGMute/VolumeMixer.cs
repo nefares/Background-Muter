@@ -82,7 +82,7 @@ namespace WinBGMuter
             Marshal.ReleaseComObject(volume);
         }
 
-        struct _AudioDevice
+         struct _AudioDevice
         {
             public bool RanOnce;        
             // get the speakers (1st render + multimedia) device
@@ -98,6 +98,7 @@ namespace WinBGMuter
         };
 
         private _AudioDevice AudioDevice;
+
 
         public void UnloadAudio(bool unloadDevice = false)
         {
@@ -118,6 +119,12 @@ namespace WinBGMuter
             }
         }
 
+      /*  public bool DiscardPID(int pid)
+        {
+            LoggingEngine.LogLine($"[>] discarding pid {pid}");
+            return AudioDevice.volumeSessionList.Remove(pid);
+        }
+      */
         public int[] GetPIDs()
         {
             ReloadAudio(false);
@@ -129,6 +136,8 @@ namespace WinBGMuter
             {
                 if (reloadDevice)
                 {
+                    LoggingEngine.LogLine("[!] Reloading audio...", Color.Orange);
+
                     AudioDevice.volumeSessionList = new Dictionary<int, ISimpleAudioVolume?>();
 
                     AudioDevice.deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
