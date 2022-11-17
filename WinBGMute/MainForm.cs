@@ -115,7 +115,7 @@ namespace WinBGMuter
             InternalLog(log + Environment.NewLine, color, font);
         }
 
-        private void HandleError(Exception ex, object? data=null)
+        private void HandleError(Exception ex, object? data = null)
         {
             m_errorCount += 1;
             if (ex.InnerException is InvalidOperationException)
@@ -134,6 +134,10 @@ namespace WinBGMuter
             }
 
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool IsIconic(IntPtr hWnd);
         // stores previous foreground process name for fallback in case of error
         private void RunMuter(int fpid, bool doMute = true)
         {
@@ -241,7 +245,25 @@ namespace WinBGMuter
                     }
                     else
                     {
-                        m_volumeMixer.SetApplicationMute(audio_pid, true);
+
+                        if (Properties.Settings.Default.MuteCondition == "BackGround")
+                        {
+                            m_volumeMixer.SetApplicationMute(audio_pid, true);
+                        }
+                        else
+                        {
+                            /* How does this handle multi window processes? */
+                            IntPtr handle = Process.GetProcessById(audio_pid).MainWindowHandle;//Error occurs for "Handle", not "MainWindowHandle"
+                            if (IsIconic(handle))
+                            {
+                                m_volumeMixer.SetApplicationMute(pid, true);
+                            }
+                            else
+                            {
+                                m_volumeMixer.SetApplicationMute(pid, false);
+                            }
+                        }
+
                         InlineMuteProcList(audio_proc_list, true);
                         log_muted += audio_pname + ", ";
                     }
@@ -416,6 +438,8 @@ namespace WinBGMuter
             DarkModeCheckbox.Checked = Properties.Settings.Default.EnableDarkMode;
             AutostartCheckbox.Checked = Properties.Settings.Default.EnableAutostart;
 
+            if (Properties.Settings.Default.MuteCondition == "BackGround") BackGroundRadioButton.Checked = true;
+            else MinimizedRadioButton.Checked = true;
 
             LoggerCheckbox_CheckedChanged(sender, EventArgs.Empty);
             ConsoleLogging_CheckedChanged(sender, EventArgs.Empty);
@@ -701,6 +725,16 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         }
 
         
+        private void BackGroundRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MuteCondition = "BackGround";
+            RunMuter(-1);
+        }
 
+        private void MinimizedRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MuteCondition = "Minimized";
+            RunMuter(-1);
+        }
     }
 }
