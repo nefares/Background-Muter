@@ -744,13 +744,15 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         private void BackGroundRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = true;
-            m_isMuteConditionBackground = true; 
+            m_isMuteConditionBackground = true;
+            RunMuter(-1);
         }
 
         private void MinimizedRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = false;
             m_isMuteConditionBackground = false;
+            RunMuter(-1);
         }
 
         private void MuteConditionGroupBox_Enter(object sender, EventArgs e)
