@@ -246,7 +246,7 @@ namespace WinBGMuter
                     }
                     else
                     {
-                        bool force_mute = false;
+                        bool force_mute = true;
                         // if not on mute list and 
                         if (!m_isMuteConditionBackground)
                         {
@@ -257,25 +257,19 @@ namespace WinBGMuter
                             if (!IsIconic(handle))
                             {
                                 // if minimize option AND NOT minimized: SKIP
+                                force_mute = false;
                                 log_skipped += "[M]" + audio_pname + ", ";
-
                             }
                             else
                             {
                                 // if minimize option and minimzed, do mute
                                 force_mute = true;
                             }
-
                         }
 
                         //mute the process and similar-named processes. Note that this may break multi-window muting 
                         // TODO: fix multi-window muting
-                        if (force_mute)
-                        {
-                            m_volumeMixer.SetApplicationMute(audio_pid, true);
-                            InlineMuteProcList(audio_proc_list, true);
-                        }
-
+                        InlineMuteProcList(audio_proc_list, force_mute);
 
                         log_muted += audio_pname + ", ";
                     }
