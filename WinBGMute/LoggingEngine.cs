@@ -28,7 +28,10 @@ namespace WinBGMuter
         public static _LogFunction m_logFunction = DefaultLogFunction;
         public static _LogLineFunction m_logLineFunction = DefaultLogLineFunction;
 
+        public enum LOG_LEVEL_TYPE {LOG_NONE, LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG };
         public static bool Enabled { get; set; }
+
+        public static LOG_LEVEL_TYPE LogLevel { get; set; }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -67,6 +70,7 @@ namespace WinBGMuter
             AllocConsole();
             m_logFunction = DefaultLogFunction;
             m_logLineFunction = DefaultLogLineFunction;
+            LogLevel = LOG_LEVEL_TYPE.LOG_DEBUG;
         }
 
         public static void SetEngine(_LogFunction logfn, _LogLineFunction loglinefn)
@@ -76,17 +80,28 @@ namespace WinBGMuter
             m_logLineFunction = loglinefn;
         }
 
-        public static void Log(object input, object? color = null, object? font = null)
+        public static void Log(object input, object? color = null, object? font = null, LOG_LEVEL_TYPE loglevel = LOG_LEVEL_TYPE.LOG_DEBUG)
         {
             if (!Enabled)
                 return;
+
+            //todo: add a separate function which does this instead of duplicating it
+            if ((loglevel > LogLevel) || (LogLevel == LOG_LEVEL_TYPE.LOG_NONE))
+            {
+                return;
+            }
             m_logFunction(input, color, font);
         }
 
-        public static void LogLine(object input, object? color = null, object? font = null)
+        public static void LogLine(object input, object? color = null, object? font = null, LOG_LEVEL_TYPE loglevel=LOG_LEVEL_TYPE.LOG_DEBUG)
         {
             if (!Enabled)
                 return;
+
+            if ((loglevel > LogLevel) || (LogLevel == LOG_LEVEL_TYPE.LOG_NONE))
+            {
+                return;
+            }
             m_logLineFunction(input, color, font);
         }
 
