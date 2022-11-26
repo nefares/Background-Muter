@@ -73,6 +73,8 @@ namespace WinBGMuter
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
+        private static int m_previous_fpid = -1;
+
 
         private void InternalLog(object olog, object? ocolor = null, object? ofont = null)
         {
@@ -198,6 +200,7 @@ namespace WinBGMuter
                 Process fproc = Process.GetProcessById(fpid);
                 fname = fproc.ProcessName;
                 m_previous_fname = fname;
+                m_previous_fpid = fpid;
             }
             catch(Exception ex)
             {
@@ -246,17 +249,19 @@ namespace WinBGMuter
                     }
                     else
                     {
-                        bool force_mute = false;
                         // if not on mute list and 
                         if (!m_isMuteConditionBackground)
                         {
-                            // if minimize option AND iconic
+                            //lamrongol
+                            bool force_mute;
 
+                            // if minimize option AND iconic
                             // TODO: fix multi window muting
                             IntPtr handle = Process.GetProcessById(audio_pid).MainWindowHandle;//Error occurs for "Handle", not "MainWindowHandle"
                             if (!IsIconic(handle))
                             {
                                 // if minimize option AND NOT minimized: SKIP
+                                force_mute = false;
                                 log_skipped += "[M]" + audio_pname + ", ";
 
                             }
@@ -266,15 +271,20 @@ namespace WinBGMuter
                                 force_mute = true;
                             }
 
-                        }
+                            //if mute condition is minimized and not on mute list
+                            m_volumeMixer.SetApplicationMute(audio_pid, force_mute);
+                            InlineMuteProcList(audio_proc_list, force_mute);
 
-                        //mute the process and similar-named processes. Note that this may break multi-window muting 
-                        // TODO: fix multi-window muting
-                        if (force_mute)
+
+                        }
+                        else
                         {
+                            //if mute condition is background and not on mute list
                             m_volumeMixer.SetApplicationMute(audio_pid, true);
                             InlineMuteProcList(audio_proc_list, true);
                         }
+
+         
 
 
                         log_muted += audio_pname + ", ";
@@ -285,6 +295,16 @@ namespace WinBGMuter
             LoggingEngine.LogLine($"[+] Summary: skipped ({log_skipped}) and muted ({log_muted})");
         }
 
+
+        private void ReloadMuter()
+        {
+            LoggingEngine.Log("[R]",Color.Aqua, null,LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG);
+            LoggingEngine.LOG_LEVEL_TYPE currentLogLevel = LoggingEngine.LogLevel;
+            LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_NONE;
+            RunMuter(Environment.ProcessId);
+            LoggingEngine.LogLevel = currentLogLevel;
+
+        }
         private void MuterCallback(object state)
         {
             var result = m_processManager.GetJobThreadSafe();
@@ -473,6 +493,7 @@ namespace WinBGMuter
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG;
             LoggingEngine.LogLine("Initializing...");
 
             m_volumeMixer = new VolumeMixer();
@@ -551,7 +572,7 @@ namespace WinBGMuter
             PopulateNeverMuteListBox();
             m_neverMuteList = NeverMuteTextBox.Text;
             Properties.Settings.Default.NeverMuteProcs = m_neverMuteList;
-            RunMuter(-1, false);
+            ReloadMuter();
         }
 
         private void SaveChangesButton_Click(object sender, EventArgs e)
@@ -663,6 +684,7 @@ namespace WinBGMuter
         {
             m_volumeMixer.UnloadAudio(true);
             m_volumeMixer.ReloadAudio(true);
+            ReloadMuter();
 
         }
 
@@ -750,13 +772,15 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         private void BackGroundRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = true;
-            m_isMuteConditionBackground = true; 
+            m_isMuteConditionBackground = true;
+            ReloadMuter();
         }
 
         private void MinimizedRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = false;
             m_isMuteConditionBackground = false;
+            ReloadMuter();
         }
 
         private void MuteConditionGroupBox_Enter(object sender, EventArgs e)
