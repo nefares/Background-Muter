@@ -178,14 +178,12 @@ namespace WinBGMuter
                 }
                 finally
                 {
-
                     if (!audio_procs.ContainsKey(pid))
                     {
                         LoggingEngine.LogLine($"[-] PID with audio channel {pid} not found in process list (most likely due to an error)");
                         //throw new Exception();
                         Process[] empty_procs = { };
                         audio_procs.Add(pid, ("", empty_procs));
-                        
                     }
                 }
             }
@@ -252,42 +250,27 @@ namespace WinBGMuter
                         // if not on mute list and 
                         if (!m_isMuteConditionBackground)
                         {
-                            //lamrongol
-                            bool force_mute;
-
                             // if minimize option AND iconic
                             // TODO: fix multi window muting
                             IntPtr handle = Process.GetProcessById(audio_pid).MainWindowHandle;//Error occurs for "Handle", not "MainWindowHandle"
                             if (!IsIconic(handle))
                             {
                                 // if minimize option AND NOT minimized: SKIP
-                                force_mute = false;
+                                InlineMuteProcList(audio_proc_list, false);
                                 log_skipped += "[M]" + audio_pname + ", ";
-
                             }
                             else
                             {
-                                // if minimize option and minimzed, do mute
-                                force_mute = true;
+                                InlineMuteProcList(audio_proc_list, true);
+                                log_muted += audio_pname + ", ";
                             }
-
-                            //if mute condition is minimized and not on mute list
-                            m_volumeMixer.SetApplicationMute(audio_pid, force_mute);
-                            InlineMuteProcList(audio_proc_list, force_mute);
-
-
                         }
                         else
                         {
                             //if mute condition is background and not on mute list
-                            m_volumeMixer.SetApplicationMute(audio_pid, true);
                             InlineMuteProcList(audio_proc_list, true);
+                            log_muted += audio_pname + ", ";
                         }
-
-         
-
-
-                        log_muted += audio_pname + ", ";
                     }
                 }
             }
