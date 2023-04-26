@@ -80,6 +80,7 @@ namespace WinBGMuter
             Guid guid = Guid.Empty;
             volume.SetMute(mute, ref guid);
             Marshal.ReleaseComObject(volume);
+            //LoggingEngine.Log((mute ? "M+" : "M-") + pid.ToString());
         }
 
          struct _AudioDevice
@@ -102,20 +103,35 @@ namespace WinBGMuter
 
         public void UnloadAudio(bool unloadDevice = false)
         {
+            List<object> com_objects = new List<object>();
             if (unloadDevice)
             {
-                Marshal.ReleaseComObject(AudioDevice.sessionEnumerator);
-                Marshal.ReleaseComObject(AudioDevice.mgr);
-                Marshal.ReleaseComObject(AudioDevice.speakers);
-                Marshal.ReleaseComObject(AudioDevice.deviceEnumerator);
+
+                com_objects.Add(AudioDevice.sessionEnumerator);
+                com_objects.Add(AudioDevice.mgr);
+                com_objects.Add(AudioDevice.speakers);
+                com_objects.Add(AudioDevice.deviceEnumerator);
             }
 
 
-            foreach (var vs in AudioDevice.volumeSessionList)
+            if (AudioDevice.volumeSessionList is not null)
             {
-                IAudioSessionControl2 ctl = vs.Value as IAudioSessionControl2;
-                Marshal.ReleaseComObject(ctl);
+                foreach (var vs in AudioDevice.volumeSessionList)
+                {
+                    IAudioSessionControl2 ctl = vs.Value as IAudioSessionControl2;
+                    com_objects.Add(ctl);
 
+                }
+            }
+            
+
+            foreach (var obj in com_objects)
+            {
+                if (obj is not null)
+                {
+                    Marshal.ReleaseComObject(obj);
+                }
+                
             }
         }
 
@@ -136,8 +152,9 @@ namespace WinBGMuter
             {
                 if (reloadDevice)
                 {
+                    UnloadAudio(true);
                     LoggingEngine.LogLine("[!] Reloading audio...", Color.Orange);
-
+                    
                     AudioDevice.volumeSessionList = new Dictionary<int, ISimpleAudioVolume?>();
 
                     AudioDevice.deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
@@ -153,7 +170,12 @@ namespace WinBGMuter
                 }
 
                 //code takes too long
+
                 AudioDevice.mgr.GetSessionEnumerator(out AudioDevice.sessionEnumerator);
+                if (AudioDevice.sessionEnumerator == null)
+                {
+                    throw new Exception("Internal error: Audio Device is a null reference");
+                }
                 AudioDevice.sessionEnumerator.GetCount(out AudioDevice.count);
 
 
@@ -186,9 +208,19 @@ namespace WinBGMuter
                 }
             } catch (Exception ex)
             {
-                if (MessageBox.Show($"Audio Initiatlization failed: {ex.Message}","Error",MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+                var res = MessageBox.Show($"Audio Initiatlization failed: {ex.Message}", "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+                if (res  == DialogResult.Retry)
                 {
-                    ReloadAudio(reloadDevice);
+                    Application.Restart();
+                    Environment.Exit(0);
+
+
+                    
+                }
+                else if (res == DialogResult.Ignore)
+                {
+                    UnloadAudio(true);
+                    ReloadAudio(true);
                 }
                 else
                 {

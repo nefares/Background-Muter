@@ -121,20 +121,16 @@ namespace WinBGMuter
         private void HandleError(Exception ex, object? data = null)
         {
             m_errorCount += 1;
-            if (ex.InnerException is InvalidOperationException)
-            {
-                int pid = (data is int) ? (int)data : -1;
-                LoggingEngine.LogLine("[-] Process access failed for PID " + pid.ToString() + " @" + ex.Source, Color.Red);
-                m_volumeMixer.ReloadAudio(true);
 
+            if (m_errorCount >= 30)
+            {
+                return;
             }
 
-            else
-            {
-                LoggingEngine.LogLine("[-] Unknown error! " + ex.ToString(), Color.Red);
-                m_volumeMixer.ReloadAudio(true);
+            int pid = (data is int) ? (int)data : -1;
+            LoggingEngine.LogLine("[-] Process access failed for PID " + pid.ToString() + " @" + ex.Source, Color.Red);
+            m_volumeMixer.ReloadAudio(true);
 
-            }
 
         }
 
@@ -158,6 +154,13 @@ namespace WinBGMuter
                 try
                 {         
                     Process proc = Process.GetProcessById(pid);
+                    /*
+                    if (proc.HasExited)
+                    {
+                        LoggingEngine.LogLine($"[!] PID with audio channel {pid} has exited! This will likely trigger an error");
+                    }
+
+                    */
                     string pname = proc.ProcessName;
 
                     //add proc name to ListBox if it will be muted

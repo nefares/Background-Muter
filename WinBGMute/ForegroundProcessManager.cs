@@ -102,7 +102,6 @@ namespace WinBGMuter
                 pid = -1;
                 success = false;
             }
-
             /* EXPERIEMTNAL
              * This will evaluate if (in rare cases) the current foreground PID from the event handler (WinEventProc) is equal to the PID provided by 
              * a new polling function (PollForegroundProcessId). 
@@ -221,6 +220,22 @@ namespace WinBGMuter
                 try
                 {
                     foreground = Process.GetProcessById(fpid);
+                
+
+                    string pname = String.Empty;
+
+                    if (foreground != null)
+                    {
+                        pname = foreground.ProcessName;
+                    }
+
+                    LoggingEngine.LogLine($"[+] Foreground process changed to {pname} - {fpid}", Color.Cyan);
+
+                    if ((fpid != 0) && (pname != String.Empty))
+                    {
+                        m_JobStack.Push(fpid);
+                    }
+
                 }
                 catch(Exception e)
                 {
@@ -228,22 +243,10 @@ namespace WinBGMuter
                 }
                 finally
                 {
-          
+                
                 }
 
-                string pname = String.Empty;
 
-                if (foreground != null)
-                {
-                    pname = foreground.ProcessName;
-                }
-
-                LoggingEngine.LogLine($"[+] Foreground process changed to {pname} - {fpid}", Color.Cyan);
-
-                if ((fpid != 0) && (pname != String.Empty))
-                {
-                    m_JobStack.Push(fpid);
-                }
             }
         }
     }
