@@ -211,9 +211,14 @@ namespace WinBGMuter
 
 
             //Inline function to mute/unmute a list of processes
-            Func<Process[], bool, string> InlineMuteProcList = (procs, isMuted) =>
+            Func<Process[], bool, int?, string> InlineMuteProcList = (procs, isMuted, additionalPID) =>
             {
                 string log_output = "";
+
+                if (additionalPID != null)
+                {
+                    m_volumeMixer.SetApplicationMute((int)additionalPID, isMuted);
+                }
                 foreach (var fproc_similar in procs)
                 {
                     var fproc_similar_pid = fproc_similar.Id;
@@ -237,7 +242,7 @@ namespace WinBGMuter
                 // if yes unmute all foreground processes with the same name
                 if (audio_pname == fname)
                 {
-                    string log_output = InlineMuteProcList(audio_proc_list, false);
+                    string log_output = InlineMuteProcList(audio_proc_list, false, audio_pid);
                     LoggingEngine.LogLine($"[+] Unmuting foreground process {audio_pname}({audio_pid}) {log_output} ", Color.BlueViolet);
                 }
                 // mute all other processes (with an audio channel), except  the ones on the neverMuteList
@@ -259,19 +264,19 @@ namespace WinBGMuter
                             if (!IsIconic(handle))
                             {
                                 // if minimize option AND NOT minimized: SKIP
-                                InlineMuteProcList(audio_proc_list, false);
+                                InlineMuteProcList(audio_proc_list, false, audio_pid);
                                 log_skipped += "[M]" + audio_pname + ", ";
                             }
                             else
                             {
-                                InlineMuteProcList(audio_proc_list, true);
+                                InlineMuteProcList(audio_proc_list, true, audio_pid);
                                 log_muted += audio_pname + ", ";
                             }
                         }
                         else
                         {
                             //if mute condition is background and not on mute list
-                            InlineMuteProcList(audio_proc_list, true);
+                            InlineMuteProcList(audio_proc_list, true, audio_pid);
                             log_muted += audio_pname + ", ";
                         }
                     }
