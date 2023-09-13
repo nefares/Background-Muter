@@ -70,6 +70,7 @@ namespace WinBGMuter
         private bool m_enableDemo = false;
         private int m_errorCount = 0;
         private bool m_isMuteConditionBackground = true;
+        private bool m_isVolumeControlActive = false;
 
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
@@ -777,6 +778,17 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         private void MuteConditionGroupBox_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void VolumeControlCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.IsVolumeControlActive = true;
+            m_isVolumeControlActive = true;
         }
     }
 }
