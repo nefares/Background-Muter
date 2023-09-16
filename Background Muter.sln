@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinBGMuter", "WinBGMute\WinBGMuter.csproj", "{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x64.Build.0 = Release|Any CPU
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x86.ActiveCfg = Release|Any CPU
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x86.Build.0 = Release|Any CPU
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Debug|Any CPU.ActiveCfg = Debug
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Debug|x64.ActiveCfg = Debug
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Debug|x86.ActiveCfg = Debug
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Release|Any CPU.ActiveCfg = Release
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Release|x64.ActiveCfg = Release
+		{5BFBAA12-AE58-4972-B75A-9ABFB9BFB4FD}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
