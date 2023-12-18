@@ -47,522 +47,554 @@ namespace WinBGMuter
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.LogTextBox = new System.Windows.Forms.RichTextBox();
-            this.TopTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.ReloadAudioButton = new System.Windows.Forms.Button();
-            this.NeverMuteTextBox = new System.Windows.Forms.TextBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.SaveChangesButton = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.NeverMuteListBox = new System.Windows.Forms.ListBox();
-            this.ProcessListListBox = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.ProcessToMuteButton = new System.Windows.Forms.Button();
-            this.MuteToProcessButton = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.ConsoleLogging = new System.Windows.Forms.CheckBox();
-            this.LoggerCheckbox = new System.Windows.Forms.CheckBox();
-            this.DarkModeCheckbox = new System.Windows.Forms.CheckBox();
-            this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
-            this.MuteConditionGroupBox = new System.Windows.Forms.GroupBox();
-            this.MinimizedRadioButton = new System.Windows.Forms.RadioButton();
-            this.BackGroundRadioButton = new System.Windows.Forms.RadioButton();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.LastLogLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.StatusBox = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.OpenMenuTray = new System.Windows.Forms.ToolStripMenuItem();
-            this.SeparatorMenuTray = new System.Windows.Forms.ToolStripSeparator();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseMenuTray = new System.Windows.Forms.ToolStripMenuItem();
-            this.MuterTimer = new System.Windows.Forms.Timer(this.components);
-            this.panel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.TopTableLayout.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
-            this.MuteConditionGroupBox.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.TrayContextMenu.SuspendLayout();
-            this.SuspendLayout();
+            panel1 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            LogTextBox = new RichTextBox();
+            TopTableLayout = new TableLayoutPanel();
+            groupBox1 = new GroupBox();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            button2 = new Button();
+            ReloadAudioButton = new Button();
+            NeverMuteTextBox = new TextBox();
+            settingsBindingSource = new BindingSource(components);
+            label1 = new Label();
+            SaveChangesButton = new Button();
+            groupBox2 = new GroupBox();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            NeverMuteListBox = new ListBox();
+            ProcessListListBox = new ListBox();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            ProcessToMuteButton = new Button();
+            MuteToProcessButton = new Button();
+            groupBox3 = new GroupBox();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            ConsoleLogging = new CheckBox();
+            LoggerCheckbox = new CheckBox();
+            DarkModeCheckbox = new CheckBox();
+            AutostartCheckbox = new CheckBox();
+            MuteConditionGroupBox = new GroupBox();
+            MinimizedRadioButton = new RadioButton();
+            BackGroundRadioButton = new RadioButton();
+            AdvancedButton = new Button();
+            statusStrip1 = new StatusStrip();
+            LastLogLabel = new ToolStripStatusLabel();
+            StatusBox = new ToolStripStatusLabel();
+            AdvancedMenuStrip = new ContextMenuStrip(components);
+            HookMenuItem = new ToolStripMenuItem();
+            TrayIcon = new NotifyIcon(components);
+            TrayContextMenu = new ContextMenuStrip(components);
+            OpenMenuTray = new ToolStripMenuItem();
+            SeparatorMenuTray = new ToolStripSeparator();
+            aboutToolStripMenuItem = new ToolStripMenuItem();
+            CloseMenuTray = new ToolStripMenuItem();
+            MuterTimer = new System.Windows.Forms.Timer(components);
+            KeepAliveTimer = new System.Windows.Forms.Timer(components);
+            panel1.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            TopTableLayout.SuspendLayout();
+            groupBox1.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource).BeginInit();
+            groupBox2.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            groupBox3.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
+            MuteConditionGroupBox.SuspendLayout();
+            statusStrip1.SuspendLayout();
+            AdvancedMenuStrip.SuspendLayout();
+            TrayContextMenu.SuspendLayout();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Controls.Add(this.statusStrip1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(549, 314);
-            this.panel1.TabIndex = 0;
+            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.Controls.Add(statusStrip1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(549, 314);
+            panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.TopTableLayout, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(549, 292);
-            this.tableLayoutPanel1.TabIndex = 1;
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(LogTextBox, 0, 1);
+            tableLayoutPanel1.Controls.Add(TopTableLayout, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(549, 292);
+            tableLayoutPanel1.TabIndex = 1;
             // 
             // LogTextBox
             // 
-            this.LogTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogTextBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.LogTextBox.Location = new System.Drawing.Point(3, 246);
-            this.LogTextBox.Name = "LogTextBox";
-            this.LogTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.LogTextBox.Size = new System.Drawing.Size(543, 59);
-            this.LogTextBox.TabIndex = 0;
-            this.LogTextBox.Text = "";
+            LogTextBox.BorderStyle = BorderStyle.None;
+            LogTextBox.Dock = DockStyle.Fill;
+            LogTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            LogTextBox.Location = new Point(3, 246);
+            LogTextBox.Name = "LogTextBox";
+            LogTextBox.ScrollBars = RichTextBoxScrollBars.Vertical;
+            LogTextBox.Size = new Size(543, 59);
+            LogTextBox.TabIndex = 0;
+            LogTextBox.Text = "";
             // 
             // TopTableLayout
             // 
-            this.TopTableLayout.ColumnCount = 3;
-            this.TopTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.TopTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TopTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.TopTableLayout.Controls.Add(this.groupBox1, 0, 0);
-            this.TopTableLayout.Controls.Add(this.groupBox2, 1, 0);
-            this.TopTableLayout.Controls.Add(this.groupBox3, 2, 0);
-            this.TopTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TopTableLayout.Location = new System.Drawing.Point(3, 3);
-            this.TopTableLayout.Name = "TopTableLayout";
-            this.TopTableLayout.RowCount = 1;
-            this.TopTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TopTableLayout.Size = new System.Drawing.Size(543, 237);
-            this.TopTableLayout.TabIndex = 1;
+            TopTableLayout.ColumnCount = 3;
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            TopTableLayout.Controls.Add(groupBox1, 0, 0);
+            TopTableLayout.Controls.Add(groupBox2, 1, 0);
+            TopTableLayout.Controls.Add(groupBox3, 2, 0);
+            TopTableLayout.Dock = DockStyle.Fill;
+            TopTableLayout.Location = new Point(3, 3);
+            TopTableLayout.Name = "TopTableLayout";
+            TopTableLayout.RowCount = 1;
+            TopTableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            TopTableLayout.Size = new Size(543, 237);
+            TopTableLayout.TabIndex = 1;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(129, 231);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Control";
+            groupBox1.Controls.Add(tableLayoutPanel3);
+            groupBox1.Dock = DockStyle.Fill;
+            groupBox1.Location = new Point(3, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(129, 231);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Control";
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.button2, 0, 4);
-            this.tableLayoutPanel3.Controls.Add(this.ReloadAudioButton, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.NeverMuteTextBox, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SaveChangesButton, 0, 3);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 19);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 5;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(123, 209);
-            this.tableLayoutPanel3.TabIndex = 0;
-            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.Controls.Add(button2, 0, 4);
+            tableLayoutPanel3.Controls.Add(ReloadAudioButton, 0, 2);
+            tableLayoutPanel3.Controls.Add(NeverMuteTextBox, 0, 1);
+            tableLayoutPanel3.Controls.Add(label1, 0, 0);
+            tableLayoutPanel3.Controls.Add(SaveChangesButton, 0, 3);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 19);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 5;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel3.Size = new Size(123, 209);
+            tableLayoutPanel3.TabIndex = 0;
+            tableLayoutPanel3.Paint += tableLayoutPanel3_Paint;
             // 
             // button2
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(3, 172);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 34);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Restore Defaults";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.Dock = DockStyle.Fill;
+            button2.Location = new Point(3, 172);
+            button2.Name = "button2";
+            button2.Size = new Size(117, 34);
+            button2.TabIndex = 1;
+            button2.Text = "Restore Defaults";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // ReloadAudioButton
             // 
-            this.ReloadAudioButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ReloadAudioButton.Location = new System.Drawing.Point(3, 92);
-            this.ReloadAudioButton.Name = "ReloadAudioButton";
-            this.ReloadAudioButton.Size = new System.Drawing.Size(117, 34);
-            this.ReloadAudioButton.TabIndex = 11;
-            this.ReloadAudioButton.Text = "Reload Audio";
-            this.ReloadAudioButton.UseVisualStyleBackColor = true;
-            this.ReloadAudioButton.Click += new System.EventHandler(this.ReloadAudioButton_Click);
+            ReloadAudioButton.Dock = DockStyle.Fill;
+            ReloadAudioButton.Location = new Point(3, 92);
+            ReloadAudioButton.Name = "ReloadAudioButton";
+            ReloadAudioButton.Size = new Size(117, 34);
+            ReloadAudioButton.TabIndex = 11;
+            ReloadAudioButton.Text = "Reload Audio";
+            ReloadAudioButton.UseVisualStyleBackColor = true;
+            ReloadAudioButton.Click += ReloadAudioButton_Click;
             // 
             // NeverMuteTextBox
             // 
-            this.NeverMuteTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "NeverMuteProcs", true));
-            this.NeverMuteTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NeverMuteTextBox.Location = new System.Drawing.Point(3, 28);
-            this.NeverMuteTextBox.Multiline = true;
-            this.NeverMuteTextBox.Name = "NeverMuteTextBox";
-            this.NeverMuteTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.NeverMuteTextBox.Size = new System.Drawing.Size(117, 58);
-            this.NeverMuteTextBox.TabIndex = 8;
-            this.NeverMuteTextBox.TextChanged += new System.EventHandler(this.NeverMuteTextBox_TextChanged);
+            NeverMuteTextBox.DataBindings.Add(new Binding("Text", settingsBindingSource, "NeverMuteProcs", true));
+            NeverMuteTextBox.Dock = DockStyle.Fill;
+            NeverMuteTextBox.Location = new Point(3, 28);
+            NeverMuteTextBox.Multiline = true;
+            NeverMuteTextBox.Name = "NeverMuteTextBox";
+            NeverMuteTextBox.ScrollBars = ScrollBars.Vertical;
+            NeverMuteTextBox.Size = new Size(117, 58);
+            NeverMuteTextBox.TabIndex = 8;
+            NeverMuteTextBox.TextChanged += NeverMuteTextBox_TextChanged;
             // 
             // settingsBindingSource
             // 
-            this.settingsBindingSource.DataSource = typeof(WinBGMuter.Properties.Settings);
+            settingsBindingSource.DataSource = typeof(Properties.Settings);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(117, 25);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Mute Exceptions";
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(117, 25);
+            label1.TabIndex = 5;
+            label1.Text = "Mute Exceptions";
             // 
             // SaveChangesButton
             // 
-            this.SaveChangesButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveChangesButton.Location = new System.Drawing.Point(3, 132);
-            this.SaveChangesButton.Name = "SaveChangesButton";
-            this.SaveChangesButton.Size = new System.Drawing.Size(117, 34);
-            this.SaveChangesButton.TabIndex = 6;
-            this.SaveChangesButton.Text = "Save Changes";
-            this.SaveChangesButton.UseVisualStyleBackColor = true;
-            this.SaveChangesButton.Click += new System.EventHandler(this.SaveChangesButton_Click);
+            SaveChangesButton.Dock = DockStyle.Fill;
+            SaveChangesButton.Location = new Point(3, 132);
+            SaveChangesButton.Name = "SaveChangesButton";
+            SaveChangesButton.Size = new Size(117, 34);
+            SaveChangesButton.TabIndex = 6;
+            SaveChangesButton.Text = "Save Changes";
+            SaveChangesButton.UseVisualStyleBackColor = true;
+            SaveChangesButton.Click += SaveChangesButton_Click;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.tableLayoutPanel4);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(138, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(265, 231);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Mute Exception Changer";
+            groupBox2.Controls.Add(tableLayoutPanel4);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(138, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(265, 231);
+            groupBox2.TabIndex = 1;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Mute Exception Changer";
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.7037F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.85185F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.44444F));
-            this.tableLayoutPanel4.Controls.Add(this.NeverMuteListBox, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.ProcessListListBox, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel2, 1, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 19);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(259, 209);
-            this.tableLayoutPanel4.TabIndex = 0;
+            tableLayoutPanel4.ColumnCount = 3;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 43.7037F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.85185F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 44.44444F));
+            tableLayoutPanel4.Controls.Add(NeverMuteListBox, 2, 0);
+            tableLayoutPanel4.Controls.Add(ProcessListListBox, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel2, 1, 0);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(3, 19);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 1;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel4.Size = new Size(259, 209);
+            tableLayoutPanel4.TabIndex = 0;
             // 
             // NeverMuteListBox
             // 
-            this.NeverMuteListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NeverMuteListBox.FormattingEnabled = true;
-            this.NeverMuteListBox.ItemHeight = 15;
-            this.NeverMuteListBox.Location = new System.Drawing.Point(146, 3);
-            this.NeverMuteListBox.Name = "NeverMuteListBox";
-            this.NeverMuteListBox.Size = new System.Drawing.Size(110, 203);
-            this.NeverMuteListBox.TabIndex = 1;
+            NeverMuteListBox.Dock = DockStyle.Fill;
+            NeverMuteListBox.FormattingEnabled = true;
+            NeverMuteListBox.ItemHeight = 15;
+            NeverMuteListBox.Location = new Point(146, 3);
+            NeverMuteListBox.Name = "NeverMuteListBox";
+            NeverMuteListBox.Size = new Size(110, 203);
+            NeverMuteListBox.TabIndex = 1;
             // 
             // ProcessListListBox
             // 
-            this.ProcessListListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProcessListListBox.FormattingEnabled = true;
-            this.ProcessListListBox.ItemHeight = 15;
-            this.ProcessListListBox.Location = new System.Drawing.Point(3, 3);
-            this.ProcessListListBox.Name = "ProcessListListBox";
-            this.ProcessListListBox.Size = new System.Drawing.Size(107, 203);
-            this.ProcessListListBox.TabIndex = 2;
+            ProcessListListBox.Dock = DockStyle.Fill;
+            ProcessListListBox.FormattingEnabled = true;
+            ProcessListListBox.ItemHeight = 15;
+            ProcessListListBox.Location = new Point(3, 3);
+            ProcessListListBox.Name = "ProcessListListBox";
+            ProcessListListBox.Size = new Size(107, 203);
+            ProcessListListBox.TabIndex = 2;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.ProcessToMuteButton, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.MuteToProcessButton, 0, 3);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(116, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 5;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.07882F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.27094F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.7931F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.7931F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(24, 203);
-            this.tableLayoutPanel2.TabIndex = 3;
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Controls.Add(ProcessToMuteButton, 0, 1);
+            tableLayoutPanel2.Controls.Add(MuteToProcessButton, 0, 3);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(116, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 5;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 28.07882F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.27094F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 13.7931F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 13.7931F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 28.57143F));
+            tableLayoutPanel2.Size = new Size(24, 203);
+            tableLayoutPanel2.TabIndex = 3;
             // 
             // ProcessToMuteButton
             // 
-            this.ProcessToMuteButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProcessToMuteButton.Location = new System.Drawing.Point(3, 60);
-            this.ProcessToMuteButton.Name = "ProcessToMuteButton";
-            this.ProcessToMuteButton.Size = new System.Drawing.Size(18, 25);
-            this.ProcessToMuteButton.TabIndex = 0;
-            this.ProcessToMuteButton.Text = ">";
-            this.ProcessToMuteButton.UseVisualStyleBackColor = true;
-            this.ProcessToMuteButton.Click += new System.EventHandler(this.ProcessToMuteButton_Click);
+            ProcessToMuteButton.Dock = DockStyle.Fill;
+            ProcessToMuteButton.Location = new Point(3, 60);
+            ProcessToMuteButton.Name = "ProcessToMuteButton";
+            ProcessToMuteButton.Size = new Size(18, 25);
+            ProcessToMuteButton.TabIndex = 0;
+            ProcessToMuteButton.Text = ">";
+            ProcessToMuteButton.UseVisualStyleBackColor = true;
+            ProcessToMuteButton.Click += ProcessToMuteButton_Click;
             // 
             // MuteToProcessButton
             // 
-            this.MuteToProcessButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MuteToProcessButton.Location = new System.Drawing.Point(3, 119);
-            this.MuteToProcessButton.Name = "MuteToProcessButton";
-            this.MuteToProcessButton.Size = new System.Drawing.Size(18, 22);
-            this.MuteToProcessButton.TabIndex = 1;
-            this.MuteToProcessButton.Text = "<";
-            this.MuteToProcessButton.UseVisualStyleBackColor = true;
-            this.MuteToProcessButton.Click += new System.EventHandler(this.MuteToProcessButton_Click);
+            MuteToProcessButton.Dock = DockStyle.Fill;
+            MuteToProcessButton.Location = new Point(3, 119);
+            MuteToProcessButton.Name = "MuteToProcessButton";
+            MuteToProcessButton.Size = new Size(18, 22);
+            MuteToProcessButton.TabIndex = 1;
+            MuteToProcessButton.Text = "<";
+            MuteToProcessButton.UseVisualStyleBackColor = true;
+            MuteToProcessButton.Click += MuteToProcessButton_Click;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.tableLayoutPanel5);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(409, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(131, 231);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Settings";
+            groupBox3.Controls.Add(tableLayoutPanel5);
+            groupBox3.Dock = DockStyle.Fill;
+            groupBox3.Location = new Point(409, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(131, 231);
+            groupBox3.TabIndex = 2;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Settings";
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.ColumnCount = 1;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.ConsoleLogging, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.LoggerCheckbox, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.DarkModeCheckbox, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.AutostartCheckbox, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.MuteConditionGroupBox, 0, 4);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 19);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 5;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(125, 209);
-            this.tableLayoutPanel5.TabIndex = 0;
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Controls.Add(ConsoleLogging, 0, 1);
+            tableLayoutPanel5.Controls.Add(LoggerCheckbox, 0, 1);
+            tableLayoutPanel5.Controls.Add(DarkModeCheckbox, 0, 0);
+            tableLayoutPanel5.Controls.Add(AutostartCheckbox, 0, 3);
+            tableLayoutPanel5.Controls.Add(MuteConditionGroupBox, 0, 4);
+            tableLayoutPanel5.Controls.Add(AdvancedButton, 0, 5);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(3, 19);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 6;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel5.Size = new Size(125, 209);
+            tableLayoutPanel5.TabIndex = 0;
             // 
             // ConsoleLogging
             // 
-            this.ConsoleLogging.AutoSize = true;
-            this.ConsoleLogging.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ConsoleLogging.Location = new System.Drawing.Point(3, 28);
-            this.ConsoleLogging.Name = "ConsoleLogging";
-            this.ConsoleLogging.Size = new System.Drawing.Size(119, 19);
-            this.ConsoleLogging.TabIndex = 14;
-            this.ConsoleLogging.Text = "Enable Console Logging";
-            this.ConsoleLogging.UseVisualStyleBackColor = true;
-            this.ConsoleLogging.CheckedChanged += new System.EventHandler(this.ConsoleLogging_CheckedChanged);
+            ConsoleLogging.AutoSize = true;
+            ConsoleLogging.Dock = DockStyle.Fill;
+            ConsoleLogging.Location = new Point(3, 28);
+            ConsoleLogging.Name = "ConsoleLogging";
+            ConsoleLogging.Size = new Size(119, 19);
+            ConsoleLogging.TabIndex = 14;
+            ConsoleLogging.Text = "Enable Console Logging";
+            ConsoleLogging.UseVisualStyleBackColor = true;
+            ConsoleLogging.CheckedChanged += ConsoleLogging_CheckedChanged;
             // 
             // LoggerCheckbox
             // 
-            this.LoggerCheckbox.AutoSize = true;
-            this.LoggerCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LoggerCheckbox.Location = new System.Drawing.Point(3, 53);
-            this.LoggerCheckbox.Name = "LoggerCheckbox";
-            this.LoggerCheckbox.Size = new System.Drawing.Size(119, 19);
-            this.LoggerCheckbox.TabIndex = 13;
-            this.LoggerCheckbox.Text = "Activate Logger";
-            this.LoggerCheckbox.UseVisualStyleBackColor = true;
-            this.LoggerCheckbox.CheckedChanged += new System.EventHandler(this.LoggerCheckbox_CheckedChanged);
+            LoggerCheckbox.AutoSize = true;
+            LoggerCheckbox.Dock = DockStyle.Fill;
+            LoggerCheckbox.Location = new Point(3, 53);
+            LoggerCheckbox.Name = "LoggerCheckbox";
+            LoggerCheckbox.Size = new Size(119, 19);
+            LoggerCheckbox.TabIndex = 13;
+            LoggerCheckbox.Text = "Activate Logger";
+            LoggerCheckbox.UseVisualStyleBackColor = true;
+            LoggerCheckbox.CheckedChanged += LoggerCheckbox_CheckedChanged;
             // 
             // DarkModeCheckbox
             // 
-            this.DarkModeCheckbox.AutoSize = true;
-            this.DarkModeCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DarkModeCheckbox.Location = new System.Drawing.Point(3, 3);
-            this.DarkModeCheckbox.Name = "DarkModeCheckbox";
-            this.DarkModeCheckbox.Size = new System.Drawing.Size(119, 19);
-            this.DarkModeCheckbox.TabIndex = 11;
-            this.DarkModeCheckbox.Text = "Dark Mode";
-            this.DarkModeCheckbox.UseVisualStyleBackColor = true;
-            this.DarkModeCheckbox.CheckedChanged += new System.EventHandler(this.DarkModeCheckbox_CheckedChanged);
+            DarkModeCheckbox.AutoSize = true;
+            DarkModeCheckbox.Dock = DockStyle.Fill;
+            DarkModeCheckbox.Location = new Point(3, 3);
+            DarkModeCheckbox.Name = "DarkModeCheckbox";
+            DarkModeCheckbox.Size = new Size(119, 19);
+            DarkModeCheckbox.TabIndex = 11;
+            DarkModeCheckbox.Text = "Dark Mode";
+            DarkModeCheckbox.UseVisualStyleBackColor = true;
+            DarkModeCheckbox.CheckedChanged += DarkModeCheckbox_CheckedChanged;
             // 
             // AutostartCheckbox
             // 
-            this.AutostartCheckbox.AutoSize = true;
-            this.AutostartCheckbox.Location = new System.Drawing.Point(3, 78);
-            this.AutostartCheckbox.Name = "AutostartCheckbox";
-            this.AutostartCheckbox.Size = new System.Drawing.Size(113, 19);
-            this.AutostartCheckbox.TabIndex = 15;
-            this.AutostartCheckbox.Text = "Enable Autostart";
-            this.AutostartCheckbox.UseVisualStyleBackColor = true;
-            this.AutostartCheckbox.CheckedChanged += new System.EventHandler(this.AutostartCheckbox_CheckedChanged);
+            AutostartCheckbox.AutoSize = true;
+            AutostartCheckbox.Location = new Point(3, 78);
+            AutostartCheckbox.Name = "AutostartCheckbox";
+            AutostartCheckbox.Size = new Size(113, 19);
+            AutostartCheckbox.TabIndex = 15;
+            AutostartCheckbox.Text = "Enable Autostart";
+            AutostartCheckbox.UseVisualStyleBackColor = true;
+            AutostartCheckbox.CheckedChanged += AutostartCheckbox_CheckedChanged;
             // 
             // MuteConditionGroupBox
             // 
-            this.MuteConditionGroupBox.Controls.Add(this.MinimizedRadioButton);
-            this.MuteConditionGroupBox.Controls.Add(this.BackGroundRadioButton);
-            this.MuteConditionGroupBox.Location = new System.Drawing.Point(3, 104);
-            this.MuteConditionGroupBox.Name = "MuteConditionGroupBox";
-            this.MuteConditionGroupBox.Size = new System.Drawing.Size(113, 62);
-            this.MuteConditionGroupBox.TabIndex = 16;
-            this.MuteConditionGroupBox.TabStop = false;
-            this.MuteConditionGroupBox.Text = "MuteCondition";
-            this.MuteConditionGroupBox.Enter += new System.EventHandler(this.MuteConditionGroupBox_Enter);
+            MuteConditionGroupBox.Controls.Add(MinimizedRadioButton);
+            MuteConditionGroupBox.Controls.Add(BackGroundRadioButton);
+            MuteConditionGroupBox.Location = new Point(3, 104);
+            MuteConditionGroupBox.Name = "MuteConditionGroupBox";
+            MuteConditionGroupBox.Size = new Size(113, 62);
+            MuteConditionGroupBox.TabIndex = 16;
+            MuteConditionGroupBox.TabStop = false;
+            MuteConditionGroupBox.Text = "MuteCondition";
             // 
             // MinimizedRadioButton
             // 
-            this.MinimizedRadioButton.AutoSize = true;
-            this.MinimizedRadioButton.Location = new System.Drawing.Point(10, 36);
-            this.MinimizedRadioButton.Name = "MinimizedRadioButton";
-            this.MinimizedRadioButton.Size = new System.Drawing.Size(81, 19);
-            this.MinimizedRadioButton.TabIndex = 1;
-            this.MinimizedRadioButton.TabStop = true;
-            this.MinimizedRadioButton.Text = "Minimized";
-            this.MinimizedRadioButton.UseVisualStyleBackColor = true;
-            this.MinimizedRadioButton.CheckedChanged += new System.EventHandler(this.MinimizedRadioButton_CheckedChanged);
+            MinimizedRadioButton.AutoSize = true;
+            MinimizedRadioButton.Location = new Point(10, 36);
+            MinimizedRadioButton.Name = "MinimizedRadioButton";
+            MinimizedRadioButton.Size = new Size(81, 19);
+            MinimizedRadioButton.TabIndex = 1;
+            MinimizedRadioButton.TabStop = true;
+            MinimizedRadioButton.Text = "Minimized";
+            MinimizedRadioButton.UseVisualStyleBackColor = true;
+            MinimizedRadioButton.CheckedChanged += MinimizedRadioButton_CheckedChanged;
             // 
             // BackGroundRadioButton
             // 
-            this.BackGroundRadioButton.AutoSize = true;
-            this.BackGroundRadioButton.Location = new System.Drawing.Point(10, 16);
-            this.BackGroundRadioButton.Name = "BackGroundRadioButton";
-            this.BackGroundRadioButton.Size = new System.Drawing.Size(90, 19);
-            this.BackGroundRadioButton.TabIndex = 0;
-            this.BackGroundRadioButton.TabStop = true;
-            this.BackGroundRadioButton.Text = "BackGround";
-            this.BackGroundRadioButton.UseVisualStyleBackColor = true;
-            this.BackGroundRadioButton.CheckedChanged += new System.EventHandler(this.BackGroundRadioButton_CheckedChanged);
+            BackGroundRadioButton.AutoSize = true;
+            BackGroundRadioButton.Location = new Point(10, 16);
+            BackGroundRadioButton.Name = "BackGroundRadioButton";
+            BackGroundRadioButton.Size = new Size(90, 19);
+            BackGroundRadioButton.TabIndex = 0;
+            BackGroundRadioButton.TabStop = true;
+            BackGroundRadioButton.Text = "BackGround";
+            BackGroundRadioButton.UseVisualStyleBackColor = true;
+            BackGroundRadioButton.CheckedChanged += BackGroundRadioButton_CheckedChanged;
+            // 
+            // AdvancedButton
+            // 
+            AdvancedButton.AutoSize = true;
+            AdvancedButton.Dock = DockStyle.Fill;
+            AdvancedButton.Location = new Point(3, 172);
+            AdvancedButton.Name = "AdvancedButton";
+            AdvancedButton.Size = new Size(119, 34);
+            AdvancedButton.TabIndex = 17;
+            AdvancedButton.Text = "Advanced...";
+            AdvancedButton.UseVisualStyleBackColor = true;
+            AdvancedButton.MouseClick += AdvancedButton_MouseClick;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LastLogLabel,
-            this.StatusBox});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 292);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(549, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            statusStrip1.Items.AddRange(new ToolStripItem[] { LastLogLabel, StatusBox });
+            statusStrip1.Location = new Point(0, 292);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(549, 22);
+            statusStrip1.TabIndex = 0;
+            statusStrip1.Text = "statusStrip1";
             // 
             // LastLogLabel
             // 
-            this.LastLogLabel.Name = "LastLogLabel";
-            this.LastLogLabel.Size = new System.Drawing.Size(0, 17);
+            LastLogLabel.Name = "LastLogLabel";
+            LastLogLabel.Size = new Size(0, 17);
             // 
             // StatusBox
             // 
-            this.StatusBox.Name = "StatusBox";
-            this.StatusBox.Size = new System.Drawing.Size(39, 17);
-            this.StatusBox.Text = "Ready";
+            StatusBox.Name = "StatusBox";
+            StatusBox.Size = new Size(39, 17);
+            StatusBox.Text = "Ready";
+            // 
+            // AdvancedMenuStrip
+            // 
+            AdvancedMenuStrip.Items.AddRange(new ToolStripItem[] { HookMenuItem });
+            AdvancedMenuStrip.Name = "AdvancedMenuStrip";
+            AdvancedMenuStrip.Size = new Size(150, 26);
+            // 
+            // HookMenuItem
+            // 
+            HookMenuItem.Checked = true;
+            HookMenuItem.CheckState = CheckState.Checked;
+            HookMenuItem.Name = "HookMenuItem";
+            HookMenuItem.Size = new Size(149, 22);
+            HookMenuItem.Text = "<placehoder>";
             // 
             // TrayIcon
             // 
-            this.TrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.TrayIcon.BalloonTipText = "Background Muter is running in the Background!";
-            this.TrayIcon.BalloonTipTitle = "BGMuter";
-            this.TrayIcon.ContextMenuStrip = this.TrayContextMenu;
-            this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
-            this.TrayIcon.Text = "Background Muter";
-            this.TrayIcon.Visible = true;
-            this.TrayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
+            TrayIcon.BalloonTipIcon = ToolTipIcon.Info;
+            TrayIcon.BalloonTipText = "Background Muter is running in the Background!";
+            TrayIcon.BalloonTipTitle = "BGMuter";
+            TrayIcon.ContextMenuStrip = TrayContextMenu;
+            TrayIcon.Icon = (Icon)resources.GetObject("TrayIcon.Icon");
+            TrayIcon.Text = "Background Muter";
+            TrayIcon.Visible = true;
+            TrayIcon.DoubleClick += TrayIcon_DoubleClick;
             // 
             // TrayContextMenu
             // 
-            this.TrayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenMenuTray,
-            this.SeparatorMenuTray,
-            this.aboutToolStripMenuItem,
-            this.CloseMenuTray});
-            this.TrayContextMenu.Name = "TrayContextMenu";
-            this.TrayContextMenu.Size = new System.Drawing.Size(108, 76);
+            TrayContextMenu.Items.AddRange(new ToolStripItem[] { OpenMenuTray, SeparatorMenuTray, aboutToolStripMenuItem, CloseMenuTray });
+            TrayContextMenu.Name = "TrayContextMenu";
+            TrayContextMenu.Size = new Size(108, 76);
             // 
             // OpenMenuTray
             // 
-            this.OpenMenuTray.Name = "OpenMenuTray";
-            this.OpenMenuTray.Size = new System.Drawing.Size(107, 22);
-            this.OpenMenuTray.Text = "Open";
-            this.OpenMenuTray.Click += new System.EventHandler(this.OpenMenuTray_Click);
+            OpenMenuTray.Name = "OpenMenuTray";
+            OpenMenuTray.Size = new Size(107, 22);
+            OpenMenuTray.Text = "Open";
+            OpenMenuTray.Click += OpenMenuTray_Click;
             // 
             // SeparatorMenuTray
             // 
-            this.SeparatorMenuTray.Name = "SeparatorMenuTray";
-            this.SeparatorMenuTray.Size = new System.Drawing.Size(104, 6);
+            SeparatorMenuTray.Name = "SeparatorMenuTray";
+            SeparatorMenuTray.Size = new Size(104, 6);
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new Size(107, 22);
+            aboutToolStripMenuItem.Text = "About";
+            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // CloseMenuTray
             // 
-            this.CloseMenuTray.Name = "CloseMenuTray";
-            this.CloseMenuTray.Size = new System.Drawing.Size(107, 22);
-            this.CloseMenuTray.Text = "Exit";
-            this.CloseMenuTray.Click += new System.EventHandler(this.CloseMenuTray_Click);
+            CloseMenuTray.Name = "CloseMenuTray";
+            CloseMenuTray.Size = new Size(107, 22);
+            CloseMenuTray.Text = "Exit";
+            CloseMenuTray.Click += CloseMenuTray_Click;
             // 
             // MuterTimer
             // 
-            this.MuterTimer.Interval = 250;
-            this.MuterTimer.Tick += new System.EventHandler(this.MuterTimer_Tick);
+            MuterTimer.Interval = 250;
+            MuterTimer.Tick += MuterTimer_Tick;
+            // 
+            // KeepAliveTimer
+            // 
+            KeepAliveTimer.Enabled = true;
+            KeepAliveTimer.Interval = 600000;
+            KeepAliveTimer.Tick += KeepAliveTimer_Tick;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 314);
-            this.Controls.Add(this.panel1);
-            this.HelpButton = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.Text = "Background Muter (GUI)";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.TopTableLayout.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
-            this.MuteConditionGroupBox.ResumeLayout(false);
-            this.MuteConditionGroupBox.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.TrayContextMenu.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(549, 314);
+            Controls.Add(panel1);
+            HelpButton = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "MainForm";
+            Text = "Background Muter (GUI)";
+            FormClosed += MainForm_FormClosed;
+            Load += MainForm_Load;
+            Resize += MainForm_Resize;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            TopTableLayout.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource).EndInit();
+            groupBox2.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanel5.PerformLayout();
+            MuteConditionGroupBox.ResumeLayout(false);
+            MuteConditionGroupBox.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            AdvancedMenuStrip.ResumeLayout(false);
+            TrayContextMenu.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
@@ -605,5 +637,9 @@ namespace WinBGMuter
         private GroupBox MuteConditionGroupBox;
         private RadioButton MinimizedRadioButton;
         private RadioButton BackGroundRadioButton;
+        private Button AdvancedButton;
+        private ContextMenuStrip AdvancedMenuStrip;
+        private ToolStripMenuItem HookMenuItem;
+        private System.Windows.Forms.Timer KeepAliveTimer;
     }
 }

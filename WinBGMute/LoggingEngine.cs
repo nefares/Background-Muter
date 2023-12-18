@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace WinBGMuter
@@ -32,6 +33,8 @@ namespace WinBGMuter
         public static bool Enabled { get; set; }
 
         public static LOG_LEVEL_TYPE LogLevel { get; set; }
+
+        public static bool HasDateTime {  get; set; }    
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -80,6 +83,15 @@ namespace WinBGMuter
             m_logLineFunction = loglinefn;
         }
 
+        private static string FormatInput(object input, LOG_LEVEL_TYPE loglevel = LOG_LEVEL_TYPE.LOG_DEBUG)
+        {
+            string output = "";
+            output += HasDateTime ? DateTime.Now.ToString("dd/MM/yyyy H:mm:ss:fff") : "";
+            output += " > ";
+            output += input;
+
+            return output;
+        }
         public static void Log(object input, object? color = null, object? font = null, LOG_LEVEL_TYPE loglevel = LOG_LEVEL_TYPE.LOG_DEBUG)
         {
             if (!Enabled)
@@ -90,6 +102,8 @@ namespace WinBGMuter
             {
                 return;
             }
+
+            
             m_logFunction(input, color, font);
         }
 
@@ -102,7 +116,8 @@ namespace WinBGMuter
             {
                 return;
             }
-            m_logLineFunction(input, color, font);
+
+            m_logLineFunction(FormatInput(input), color, font);
         }
 
     }

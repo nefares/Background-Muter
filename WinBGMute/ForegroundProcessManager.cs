@@ -90,7 +90,7 @@ namespace WinBGMuter
 
                 if (!m_JobStack.IsEmpty)
                 {
-                    //LoggingEngine.LogLine("[!] discrading previous foreground processes ");
+                    LoggingEngine.LogLine("[*] discrading previous foreground processes ");
                 }
                 m_JobStack.Clear();
 
@@ -109,11 +109,13 @@ namespace WinBGMuter
              TODO: in the future, remove the whole WinEventProc (and the related stack) and replace them with the following piece of code which does the same job more reliably */
             int poll_fpid = PollForegroundProcessId();
 
+            /* there was a change in the foreground process */
             if (m_lastForegroundId != poll_fpid)
             {
                 success = true;
                 m_lastForegroundId = poll_fpid;
             }
+            /* no change */
             else
             {
                 success = false;

@@ -152,7 +152,7 @@ namespace WinBGMuter
             foreach (var pid in audio_pids)
             {
                 try
-                {         
+                {
                     Process proc = Process.GetProcessById(pid);
                     /*
                     if (proc.HasExited)
@@ -203,10 +203,10 @@ namespace WinBGMuter
                 m_previous_fname = fname;
                 m_previous_fpid = fpid;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 fname = m_previous_fname;
-                LoggingEngine.LogLine($"[!] Process name not found for pid {fpid}. Reverting to {fname}. {ex.ToString()}",Color.Orange);
+                LoggingEngine.LogLine($"[!] Process name not found for pid {fpid}. Reverting to {fname}. {ex.ToString()}", Color.Orange);
             }
 
 
@@ -223,7 +223,7 @@ namespace WinBGMuter
                 {
                     var fproc_similar_pid = fproc_similar.Id;
                     m_volumeMixer.SetApplicationMute(fproc_similar_pid, isMuted);
-                    log_output +=".";
+                    log_output += ".";
                 }
                 //log_output += "\r\n";
                 return log_output;
@@ -289,7 +289,7 @@ namespace WinBGMuter
 
         private void ReloadMuter()
         {
-            LoggingEngine.Log("[R]",Color.Aqua, null,LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG);
+            LoggingEngine.Log("[R]", Color.Aqua, null, LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG);
             LoggingEngine.LOG_LEVEL_TYPE currentLogLevel = LoggingEngine.LogLevel;
             LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_NONE;
             RunMuter(Environment.ProcessId);
@@ -304,6 +304,8 @@ namespace WinBGMuter
             {
                 RunMuter(result.Item2);
             }
+
+            //LoggingEngine.LogLine("Tick - " + result.ToString());
         }
 
         protected override void SetVisibleCore(bool value)
@@ -446,8 +448,9 @@ namespace WinBGMuter
                     m_volumeMixer.SetApplicationMute(pid, false);
                 }
             }
-            catch (Exception ex) {
-                MessageBox.Show($"Cleanup failed: {ex.Message}", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Cleanup failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -485,6 +488,7 @@ namespace WinBGMuter
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG;
+            LoggingEngine.HasDateTime = true;
             LoggingEngine.LogLine("Initializing...");
 
             m_volumeMixer = new VolumeMixer();
@@ -569,9 +573,9 @@ namespace WinBGMuter
         private void SaveChangesButton_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
-            m_settingsChanged = false;   
+            m_settingsChanged = false;
             this.SaveChangesButton.Enabled = false;
-            
+
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -750,7 +754,7 @@ GNU General Public License for more details.
                                                                               
 You should have received a copy of the GNU General Public License             
 along with this program.If not, see < https://www.gnu.org/licenses/>          
-","About",MessageBoxButtons.OK);
+", "About", MessageBoxButtons.OK);
 
         }
 
@@ -759,7 +763,7 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
 
         }
 
-        
+
         private void BackGroundRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IsMuteConditionBackground = true;
@@ -774,9 +778,14 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
             ReloadMuter();
         }
 
-        private void MuteConditionGroupBox_Enter(object sender, EventArgs e)
+        private void AdvancedButton_MouseClick(object sender, MouseEventArgs e)
         {
+            AdvancedMenuStrip.Show(AdvancedButton, new Point(e.X, e.Y));
+        }
 
+        private void KeepAliveTimer_Tick(object sender, EventArgs e)
+        {
+            LoggingEngine.Log("<Keep Alive>");
         }
     }
 }
