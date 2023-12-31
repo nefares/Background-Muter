@@ -73,13 +73,9 @@ jobs:
         # Tool to use for archiving
         type: zip # optional, default is zip
 
-    - name: Setup Squirrel
-      shell: powershell
-      run: Set-Alias Squirrel ($env:USERPROFILE + "\.nuget\packages\clowd.squirrel\2.9.40\tools\Squirrel.exe")
-
     - name: Setup prep
       shell: powershell
-      run: Squirrel pack --framework net6,vcredist143-x86 --packId "WinBGMuter" --packVersion "${{ steps.version-num.outputs.vnum }}" --packAuthors "Nefares" --packDir ".\WinBGMute\bin\Release\net6.0-windows\publish\" --icon ".\WinBGMute\res\bgm_muted.ico" --splashImage ".\WinBGMute\res\bgm_muted.png"
+      run: C:\Users\runneradmin\.nuget\packages\clowd.squirrel\2.11.1\tools\Squirrel.exe pack --framework net6,vcredist143-x86 --packId "WinBGMuter" --packVersion "${{ steps.version-num.outputs.vnum }}" --packAuthors "Nefares" --packDir ".\WinBGMute\bin\Release\net6.0-windows\publish\" --icon ".\WinBGMute\res\bgm_muted.ico" --splashImage ".\WinBGMute\res\bgm_muted.png"
       
     - name: Test
       run: file WinBGMuter.zip && ls && pwd
