@@ -85,6 +85,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "${{ steps.bump-semver.outputs.new_version }}"
         prerelease: true
+        draft: true
         title: "${{ steps.bump-semver.outputs.new_version }}"
         files: |
           WinBGMuter.zip
