@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Squirrel;
 using System.Diagnostics;
 
 namespace WinBGMuter
@@ -28,11 +29,16 @@ namespace WinBGMuter
         [STAThread]
         static void Main(string[] args)
         {
+            InstallManager.Init();
+
             Process myproc = Process.GetCurrentProcess();
             myproc.PriorityClass = ProcessPriorityClass.BelowNormal;
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm(args));
         }
+
+
+
     }
 }

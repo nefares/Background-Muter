@@ -8,9 +8,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>res\bgm_muted.ico</ApplicationIcon>
     <DebugType>none</DebugType>
-    <PackageLicenseFile>X:\01_Projects\Background Muter\COPYING</PackageLicenseFile>
+    <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,7 +31,19 @@
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <Visible>True</Visible>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\COPYING">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Clowd.Squirrel" Version="2.11.1" />
   </ItemGroup>
 
   <ItemGroup>

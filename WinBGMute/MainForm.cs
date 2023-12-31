@@ -787,5 +787,10 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         {
             LoggingEngine.Log("<Keep Alive>");
         }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InstallManager.UpdateApp();
+        }
     }
 }
