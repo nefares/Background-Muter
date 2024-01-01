@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "WinBGMuter": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

@@ -435,3 +435,8 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,windows
 /build.cmd
 /build_and_run.cmd
+/Setup
+/post-build.bat
+/WinBGMute/Setup
+/WinBGMute/Properties/launchSettings.json
+/WinBGMute/Properties/launchSettings.json
