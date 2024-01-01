@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 using Squirrel;
 using System.Threading.Tasks;
+using Squirrel.Sources;
+using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace WinBGMuter
 {
@@ -34,27 +37,36 @@ namespace WinBGMuter
         {
             tools.SetProcessAppUserModelId();
             // show a welcome message when the app is first installed
-            if (firstRun) MessageBox.Show("Thanks for installing my application!");
+            if (firstRun)
+            {
+
+            }
         }
 
 
-
+        public static async Task UpdateAppAsync()
+        {
+            //@todo: fix this
+            UpdateApp();
+        }
         public static void UpdateApp()
         {
-            using var mgr = new UpdateManager(
-                "X:\\01_Projects\\02_Background Muter\\" +
-                "WinBGMute\\Releases");
+            using var mgr = new UpdateManager(new GithubSource("https://github.com/nefares/Background-Muter/","",false));
 
             if (!mgr.IsInstalledApp)
             {
-                LoggingEngine.LogLine("[-] Application is not installed. Check if running in portable mode.",null,null,LoggingEngine.LOG_LEVEL_TYPE.LOG_ERROR);
+                LoggingEngine.LogLine("[-] Application is not installed. Likely running in portable mode.",null,null,LoggingEngine.LOG_LEVEL_TYPE.LOG_ERROR);
                 return;
             }
-
             string appstring = mgr.CurrentlyInstalledVersion() + " - " + mgr.AppId.ToString();
             LoggingEngine.LogLine(appstring);
+
+
             var newVersion = mgr.UpdateApp();
-            MessageBox.Show(appstring);
+
+
+            newVersion.Wait();
+            MessageBox.Show(appstring + " -> " + newVersion.Result);
 
 
             // optionally restart the app automatically, or ask the user if/when they want to restart

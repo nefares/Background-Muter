@@ -1,0 +1,118 @@
+name: "tagged-release"
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+  
+jobs:
+  publish:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Get Latest Tag
+      id: get-latest-tag
+      run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+
+    - uses: actions-ecosystem/action-bump-semver@v1
+      id: bump-semver
+      with:
+        current_version: ${{ steps.get-latest-tag.outputs.tag }}
+        level: patch
+        
+    - uses: madhead/semver-utils@latest
+      id: version
+      with:
+        # A version to work with
+        version: ${{ steps.bump-semver.outputs.new_version }}
+
+    - name: Prep Tag
+      id: version-num
+      run: echo "::set-output name=vnum::${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"        
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Publish
+      run: echo "${{ steps.version-num.outputs.vnum }}" && dotnet publish -p:Version="${{ steps.version-num.outputs.vnum }}" -p:PublishProfile=FolderProfile -c Release --no-restore
+     
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    - name: Setup NuGet.exe for use with actions
+      # You may pin to the exact commit or the version.
+      # uses: NuGet/setup-nuget@296fd3ccf8528660c91106efefe2364482f86d6f
+      uses: NuGet/setup-nuget@v1.2.0
+  
+    - name: Zip Release
+      # You may pin to the exact commit or the version.
+      # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
+      uses: TheDoctor0/zip-release@0.6.2
+      with:
+        # Filename for archive
+        filename: WinBGMuter.zip
+        # Base path for archive files
+        path: .\WinBGMute\bin\Release\net6.0-windows\publish\. # optional, default is .
+        # Working directory before zipping
+        directory: .  # optional, default is .
+        # List of excluded files / directories
+        exclusions: WinBGMuter.pdb # optional, default is 
+        # Tool to use for archiving
+        type: zip # optional, default is zip
+
+    - name: Setup prep
+      shell: powershell
+      run: C:\Users\runneradmin\.nuget\packages\clowd.squirrel\2.11.1\tools\Squirrel.exe pack --framework net6,vcredist143-x86 --releaseDir "Setup" --packId "WinBGMuter" --packVersion "${{ steps.version-num.outputs.vnum }}" --packAuthors "Nefares" --packDir ".\WinBGMute\bin\Release\net6.0-windows\publish\" --icon ".\WinBGMute\res\bgm_muted.ico" --splashImage ".\WinBGMute\res\bgm_muted.png"
+
+    - name: Copy Setup Files
+      shell: powershell
+      run: Copy-Item -Path ".\Setup\RELEASES" -Destination ".\RELEASES"; Copy-Item -Path ".\Setup\*.*" -Destination "."
+
+    - name: Test
+      run: file WinBGMuter.zip && ls && pwd && ls Releases
+    
+      
+    - name: Run
+      shell: powershell
+      run: Start-Process -FilePath .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe -ArgumentList "demo" -WorkingDirectory .\WinBGMute\bin\Release\net6.0-windows\publish\
+
+    - name: Sleep
+      shell: powershell
+      run: Start-Sleep -s 10
+      
+    - name: Screenshot
+      uses: OrbitalOwen/desktop-screenshot-action@0.1
+      with:
+        file-name: screenshot.jpg
+
+    - name: Automatic Releases
+      uses: marvinpinto/action-automatic-releases@v1.2.1
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "${{ steps.bump-semver.outputs.new_version }}"
+        draft: true
+        prerelease: true
+        title: "${{ steps.bump-semver.outputs.new_version }}"
+        files: |
+          WinBGMuter.zip
+          screenshot.jpg
+          RELEASES
+          WinBGMuter-${{ steps.version-num.outputs.vnum }}-full.nupkg
+          WinBGMuterSetup.exe
+
+        
+
+

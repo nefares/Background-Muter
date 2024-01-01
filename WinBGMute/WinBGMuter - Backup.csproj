@@ -12,7 +12,6 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -75,7 +74,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd ..\ &amp;&amp; call post-build.bat" />
+    <Exec Command="call ..\..\post-build.bat" />
   </Target>
 
 </Project>

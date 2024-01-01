@@ -83,6 +83,7 @@ namespace WinBGMuter
             StatusBox = new ToolStripStatusLabel();
             AdvancedMenuStrip = new ContextMenuStrip(components);
             HookMenuItem = new ToolStripMenuItem();
+            checkForUpdatesToolStripMenuItem = new ToolStripMenuItem();
             TrayIcon = new NotifyIcon(components);
             TrayContextMenu = new ContextMenuStrip(components);
             OpenMenuTray = new ToolStripMenuItem();
@@ -91,7 +92,6 @@ namespace WinBGMuter
             CloseMenuTray = new ToolStripMenuItem();
             MuterTimer = new System.Windows.Forms.Timer(components);
             KeepAliveTimer = new System.Windows.Forms.Timer(components);
-            checkForUpdatesToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             TopTableLayout.SuspendLayout();
@@ -149,6 +149,7 @@ namespace WinBGMuter
             LogTextBox.Size = new Size(621, 79);
             LogTextBox.TabIndex = 0;
             LogTextBox.Text = "";
+            LogTextBox.WordWrap = false;
             // 
             // TopTableLayout
             // 
@@ -532,15 +533,22 @@ namespace WinBGMuter
             AdvancedMenuStrip.ImageScalingSize = new Size(20, 20);
             AdvancedMenuStrip.Items.AddRange(new ToolStripItem[] { HookMenuItem, checkForUpdatesToolStripMenuItem });
             AdvancedMenuStrip.Name = "AdvancedMenuStrip";
-            AdvancedMenuStrip.Size = new Size(211, 84);
+            AdvancedMenuStrip.Size = new Size(200, 56);
             // 
             // HookMenuItem
             // 
             HookMenuItem.Checked = true;
             HookMenuItem.CheckState = CheckState.Checked;
             HookMenuItem.Name = "HookMenuItem";
-            HookMenuItem.Size = new Size(210, 26);
+            HookMenuItem.Size = new Size(199, 26);
             HookMenuItem.Text = "<placehoder>";
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            checkForUpdatesToolStripMenuItem.Size = new Size(199, 26);
+            checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            checkForUpdatesToolStripMenuItem.Click += checkForUpdatesToolStripMenuItem_Click;
             // 
             // TrayIcon
             // 
@@ -596,13 +604,6 @@ namespace WinBGMuter
             KeepAliveTimer.Enabled = true;
             KeepAliveTimer.Interval = 600000;
             KeepAliveTimer.Tick += KeepAliveTimer_Tick;
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            checkForUpdatesToolStripMenuItem.Size = new Size(210, 26);
-            checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
-            checkForUpdatesToolStripMenuItem.Click += checkForUpdatesToolStripMenuItem_Click;
             // 
             // MainForm
             // 

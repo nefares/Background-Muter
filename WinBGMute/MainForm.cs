@@ -17,6 +17,7 @@
 */
 
 
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -68,6 +69,8 @@ namespace WinBGMuter
         private bool m_settingsChanged = false;
         private bool m_enableMiniStart = false;
         private bool m_enableDemo = false;
+        private bool m_firstRun = false;
+
         private int m_errorCount = 0;
         private bool m_isMuteConditionBackground = true;
 
@@ -424,6 +427,9 @@ namespace WinBGMuter
                         case "--demo":
                             m_enableDemo = true;
                             break;
+                        case "--squirrel-firstrun":
+                            m_firstRun = true;
+                            break;
                         default:
                             MessageBox.Show($"Unknown argument {arg}");
                             break;
@@ -491,14 +497,27 @@ namespace WinBGMuter
             LoggingEngine.HasDateTime = true;
             LoggingEngine.LogLine("Initializing...");
 
+
+
+
             m_volumeMixer = new VolumeMixer();
             m_processManager = new ForegroundProcessManager();
 
             ReloadSettings(sender, e);
 
+            var logPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+            LoggingEngine.LogLine($"Settings located at: {logPath}");    
+
+            if (m_firstRun)
+            {
+                LoggingEngine.LogLine("Welcome to Background Muter! Please note that by using this tool you agree to the terms of the GPLv3 license terms. Visit https://github.com/nefares/Background-Muter for more information.");
+
+            }
             MuterTimer.Enabled = true;
 
             m_processManager.Init();
+
+            
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
@@ -790,7 +809,13 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InstallManager.UpdateApp();
+            try
+            {
+                InstallManager.UpdateApp();
+
+            } catch (Exception ex) {
+                LoggingEngine.LogLine("[-] Error while checking for updates: " + ex.Message);    
+            }
         }
     }
 }
