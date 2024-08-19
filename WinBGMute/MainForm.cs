@@ -308,17 +308,6 @@ namespace WinBGMuter
             //LoggingEngine.LogLine("Tick - " + result.ToString());
         }
 
-        protected override void SetVisibleCore(bool value)
-        {
-            if (m_enableMiniStart)
-            {
-                m_enableMiniStart = false;
-                value = false;
-                if (!this.IsHandleCreated) CreateHandle();
-            }
-            base.SetVisibleCore(value);
-        }
-
         private void EnableAutoStart(bool isEnabled)
         {
             string autostartPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
@@ -523,6 +512,7 @@ namespace WinBGMuter
             {
                 this.WindowState = FormWindowState.Minimized;
                 this.MainForm_Resize(sender, e);
+                if (!this.IsHandleCreated) CreateHandle();
             }
         }
 
