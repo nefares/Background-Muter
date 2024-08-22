@@ -3,13 +3,15 @@
 ![image](https://img.shields.io/github/license/nefares/Background-Muter) ![image](https://img.shields.io/github/issues/nefares/Background-Muter) [![.NET](https://github.com/nefares/Background-Muter/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nefares/Background-Muter/actions/workflows/dotnet.yml) ![GitHub all releases](https://img.shields.io/github/downloads/nefares/Background-Muter/total)
 
 -------
-### Now gathering your whitelists:cat: and blacklists:dog: here => (https://github.com/nefares/Background-Muter/discussions/28)
+### Now gathering your whitelists :cat: and blacklists :dog: here => (https://github.com/nefares/Background-Muter/discussions/28)
 -------
 
 This tool automatically mutes applications in the background, and unmutes them once they are switched to foreground.
 You can add exceptions for which applications are never muted.
 
-![image](https://user-images.githubusercontent.com/8545128/170842100-7c0d6dbd-acf8-4d28-b605-8a7abbbc106c.png)
+[comment]: ![image](https://user-images.githubusercontent.com/8545128/170842100-7c0d6dbd-acf8-4d28-b605-8a7abbbc106c.png)
+
+![image](https://github.com/user-attachments/assets/eb353683-71df-4cc5-a833-60c150c3a528)
 
 # Features
 * Works out of the box with default settings
