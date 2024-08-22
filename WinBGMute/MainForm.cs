@@ -308,17 +308,6 @@ namespace WinBGMuter
             //LoggingEngine.LogLine("Tick - " + result.ToString());
         }
 
-        protected override void SetVisibleCore(bool value)
-        {
-            if (m_enableMiniStart)
-            {
-                m_enableMiniStart = false;
-                value = false;
-                if (!this.IsHandleCreated) CreateHandle();
-            }
-            base.SetVisibleCore(value);
-        }
-
         private void EnableAutoStart(bool isEnabled)
         {
             string autostartPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
@@ -519,11 +508,6 @@ namespace WinBGMuter
 
             this.Text += " - v" + fvi.ProductVersion;
 
-            if (m_enableMiniStart)
-            {
-                this.WindowState = FormWindowState.Minimized;
-                this.MainForm_Resize(sender, e);
-            }
         }
 
         private void Default_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -786,6 +770,16 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
         private void KeepAliveTimer_Tick(object sender, EventArgs e)
         {
             LoggingEngine.Log("<Keep Alive>");
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (m_enableMiniStart)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.MainForm_Resize(sender, e);
+                //if (!this.IsHandleCreated) CreateHandle();
+            }
         }
     }
 }
