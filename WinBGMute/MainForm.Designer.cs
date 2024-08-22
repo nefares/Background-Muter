@@ -63,11 +63,15 @@ namespace WinBGMuter
             SaveChangesButton = new Button();
             groupBox2 = new GroupBox();
             tableLayoutPanel4 = new TableLayoutPanel();
-            NeverMuteListBox = new ListBox();
-            ProcessListListBox = new ListBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             ProcessToMuteButton = new Button();
             MuteToProcessButton = new Button();
+            tableLayoutPanel6 = new TableLayoutPanel();
+            ProcessListListBox = new ListBox();
+            label2 = new Label();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            NeverMuteListBox = new ListBox();
+            label3 = new Label();
             groupBox3 = new GroupBox();
             tableLayoutPanel5 = new TableLayoutPanel();
             ConsoleLogging = new CheckBox();
@@ -82,7 +86,7 @@ namespace WinBGMuter
             LastLogLabel = new ToolStripStatusLabel();
             StatusBox = new ToolStripStatusLabel();
             AdvancedMenuStrip = new ContextMenuStrip(components);
-            HookMenuItem = new ToolStripMenuItem();
+            EnableConsole = new ToolStripMenuItem();
             TrayIcon = new NotifyIcon(components);
             TrayContextMenu = new ContextMenuStrip(components);
             OpenMenuTray = new ToolStripMenuItem();
@@ -99,6 +103,8 @@ namespace WinBGMuter
             groupBox2.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            tableLayoutPanel7.SuspendLayout();
             groupBox3.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             MuteConditionGroupBox.SuspendLayout();
@@ -151,9 +157,9 @@ namespace WinBGMuter
             // TopTableLayout
             // 
             TopTableLayout.ColumnCount = 3;
-            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.5576916F));
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.3205147F));
+            TopTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.9615383F));
             TopTableLayout.Controls.Add(groupBox1, 0, 0);
             TopTableLayout.Controls.Add(groupBox2, 1, 0);
             TopTableLayout.Controls.Add(groupBox3, 2, 0);
@@ -174,7 +180,7 @@ namespace WinBGMuter
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
-            groupBox1.Size = new Size(149, 308);
+            groupBox1.Size = new Size(140, 308);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Control";
@@ -198,7 +204,7 @@ namespace WinBGMuter
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 53F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 53F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 53F));
-            tableLayoutPanel3.Size = new Size(143, 280);
+            tableLayoutPanel3.Size = new Size(134, 280);
             tableLayoutPanel3.TabIndex = 0;
             tableLayoutPanel3.Paint += tableLayoutPanel3_Paint;
             // 
@@ -208,7 +214,7 @@ namespace WinBGMuter
             button2.Location = new Point(3, 231);
             button2.Margin = new Padding(3, 4, 3, 4);
             button2.Name = "button2";
-            button2.Size = new Size(137, 45);
+            button2.Size = new Size(128, 45);
             button2.TabIndex = 1;
             button2.Text = "Restore Defaults";
             button2.UseVisualStyleBackColor = true;
@@ -220,7 +226,7 @@ namespace WinBGMuter
             ReloadAudioButton.Location = new Point(3, 125);
             ReloadAudioButton.Margin = new Padding(3, 4, 3, 4);
             ReloadAudioButton.Name = "ReloadAudioButton";
-            ReloadAudioButton.Size = new Size(137, 45);
+            ReloadAudioButton.Size = new Size(128, 45);
             ReloadAudioButton.TabIndex = 11;
             ReloadAudioButton.Text = "Reload Audio";
             ReloadAudioButton.UseVisualStyleBackColor = true;
@@ -235,7 +241,7 @@ namespace WinBGMuter
             NeverMuteTextBox.Multiline = true;
             NeverMuteTextBox.Name = "NeverMuteTextBox";
             NeverMuteTextBox.ScrollBars = ScrollBars.Vertical;
-            NeverMuteTextBox.Size = new Size(137, 80);
+            NeverMuteTextBox.Size = new Size(128, 80);
             NeverMuteTextBox.TabIndex = 8;
             NeverMuteTextBox.TextChanged += NeverMuteTextBox_TextChanged;
             // 
@@ -249,7 +255,7 @@ namespace WinBGMuter
             label1.Dock = DockStyle.Fill;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(137, 33);
+            label1.Size = new Size(128, 33);
             label1.TabIndex = 5;
             label1.Text = "Mute Exceptions";
             // 
@@ -259,7 +265,7 @@ namespace WinBGMuter
             SaveChangesButton.Location = new Point(3, 178);
             SaveChangesButton.Margin = new Padding(3, 4, 3, 4);
             SaveChangesButton.Name = "SaveChangesButton";
-            SaveChangesButton.Size = new Size(137, 45);
+            SaveChangesButton.Size = new Size(128, 45);
             SaveChangesButton.TabIndex = 6;
             SaveChangesButton.Text = "Save Changes";
             SaveChangesButton.UseVisualStyleBackColor = true;
@@ -269,11 +275,11 @@ namespace WinBGMuter
             // 
             groupBox2.Controls.Add(tableLayoutPanel4);
             groupBox2.Dock = DockStyle.Fill;
-            groupBox2.Location = new Point(158, 4);
+            groupBox2.Location = new Point(149, 4);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
-            groupBox2.Size = new Size(304, 308);
+            groupBox2.Size = new Size(306, 308);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Mute Exception Changer";
@@ -284,9 +290,9 @@ namespace WinBGMuter
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 43.7037F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.85185F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 44.44444F));
-            tableLayoutPanel4.Controls.Add(NeverMuteListBox, 2, 0);
-            tableLayoutPanel4.Controls.Add(ProcessListListBox, 0, 0);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel2, 1, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel6, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel7, 2, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 24);
             tableLayoutPanel4.Margin = new Padding(3, 4, 3, 4);
@@ -294,30 +300,8 @@ namespace WinBGMuter
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 273F));
-            tableLayoutPanel4.Size = new Size(298, 280);
+            tableLayoutPanel4.Size = new Size(300, 280);
             tableLayoutPanel4.TabIndex = 0;
-            // 
-            // NeverMuteListBox
-            // 
-            NeverMuteListBox.Dock = DockStyle.Fill;
-            NeverMuteListBox.FormattingEnabled = true;
-            NeverMuteListBox.ItemHeight = 20;
-            NeverMuteListBox.Location = new Point(168, 4);
-            NeverMuteListBox.Margin = new Padding(3, 4, 3, 4);
-            NeverMuteListBox.Name = "NeverMuteListBox";
-            NeverMuteListBox.Size = new Size(127, 272);
-            NeverMuteListBox.TabIndex = 1;
-            // 
-            // ProcessListListBox
-            // 
-            ProcessListListBox.Dock = DockStyle.Fill;
-            ProcessListListBox.FormattingEnabled = true;
-            ProcessListListBox.ItemHeight = 20;
-            ProcessListListBox.Location = new Point(3, 4);
-            ProcessListListBox.Margin = new Padding(3, 4, 3, 4);
-            ProcessListListBox.Name = "ProcessListListBox";
-            ProcessListListBox.Size = new Size(124, 272);
-            ProcessListListBox.TabIndex = 2;
             // 
             // tableLayoutPanel2
             // 
@@ -327,7 +311,7 @@ namespace WinBGMuter
             tableLayoutPanel2.Controls.Add(ProcessToMuteButton, 0, 1);
             tableLayoutPanel2.Controls.Add(MuteToProcessButton, 0, 3);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(133, 4);
+            tableLayoutPanel2.Location = new Point(134, 4);
             tableLayoutPanel2.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 5;
@@ -363,18 +347,91 @@ namespace WinBGMuter
             MuteToProcessButton.UseVisualStyleBackColor = true;
             MuteToProcessButton.Click += MuteToProcessButton_Click;
             // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 1;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Controls.Add(ProcessListListBox, 0, 1);
+            tableLayoutPanel6.Controls.Add(label2, 0, 0);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 3);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 2;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 253F));
+            tableLayoutPanel6.Size = new Size(125, 274);
+            tableLayoutPanel6.TabIndex = 4;
+            tableLayoutPanel6.Paint += tableLayoutPanel6_Paint;
+            // 
+            // ProcessListListBox
+            // 
+            ProcessListListBox.Dock = DockStyle.Fill;
+            ProcessListListBox.FormattingEnabled = true;
+            ProcessListListBox.ItemHeight = 20;
+            ProcessListListBox.Location = new Point(3, 25);
+            ProcessListListBox.Margin = new Padding(3, 4, 3, 4);
+            ProcessListListBox.Name = "ProcessListListBox";
+            ProcessListListBox.Size = new Size(119, 245);
+            ProcessListListBox.TabIndex = 5;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Fill;
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(119, 21);
+            label2.TabIndex = 0;
+            label2.Text = "▶ Running Apps";
+            // 
+            // tableLayoutPanel7
+            // 
+            tableLayoutPanel7.ColumnCount = 1;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.Controls.Add(NeverMuteListBox, 0, 1);
+            tableLayoutPanel7.Controls.Add(label3, 0, 0);
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.Location = new Point(169, 3);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 2;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 8.029197F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 91.9708F));
+            tableLayoutPanel7.Size = new Size(128, 274);
+            tableLayoutPanel7.TabIndex = 5;
+            // 
+            // NeverMuteListBox
+            // 
+            NeverMuteListBox.Dock = DockStyle.Fill;
+            NeverMuteListBox.FormattingEnabled = true;
+            NeverMuteListBox.ItemHeight = 20;
+            NeverMuteListBox.Location = new Point(3, 26);
+            NeverMuteListBox.Margin = new Padding(3, 4, 3, 4);
+            NeverMuteListBox.Name = "NeverMuteListBox";
+            NeverMuteListBox.Size = new Size(122, 244);
+            NeverMuteListBox.TabIndex = 2;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Fill;
+            label3.Location = new Point(3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(122, 22);
+            label3.TabIndex = 0;
+            label3.Text = "🔕Never Muted";
+            // 
             // groupBox3
             // 
             groupBox3.Controls.Add(tableLayoutPanel5);
             groupBox3.Dock = DockStyle.Fill;
-            groupBox3.Location = new Point(468, 4);
+            groupBox3.Location = new Point(461, 4);
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
-            groupBox3.Size = new Size(150, 308);
+            groupBox3.Size = new Size(157, 308);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
-            groupBox3.Text = "Settings";
+            groupBox3.Text = "🛠Settings";
             // 
             // tableLayoutPanel5
             // 
@@ -397,7 +454,7 @@ namespace WinBGMuter
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 91F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 33F));
-            tableLayoutPanel5.Size = new Size(144, 280);
+            tableLayoutPanel5.Size = new Size(151, 280);
             tableLayoutPanel5.TabIndex = 0;
             // 
             // ConsoleLogging
@@ -407,7 +464,7 @@ namespace WinBGMuter
             ConsoleLogging.Location = new Point(3, 37);
             ConsoleLogging.Margin = new Padding(3, 4, 3, 4);
             ConsoleLogging.Name = "ConsoleLogging";
-            ConsoleLogging.Size = new Size(138, 25);
+            ConsoleLogging.Size = new Size(145, 25);
             ConsoleLogging.TabIndex = 14;
             ConsoleLogging.Text = "Enable Console Logging";
             ConsoleLogging.UseVisualStyleBackColor = true;
@@ -420,7 +477,7 @@ namespace WinBGMuter
             LoggerCheckbox.Location = new Point(3, 70);
             LoggerCheckbox.Margin = new Padding(3, 4, 3, 4);
             LoggerCheckbox.Name = "LoggerCheckbox";
-            LoggerCheckbox.Size = new Size(138, 25);
+            LoggerCheckbox.Size = new Size(145, 25);
             LoggerCheckbox.TabIndex = 13;
             LoggerCheckbox.Text = "Activate Logger";
             LoggerCheckbox.UseVisualStyleBackColor = true;
@@ -433,7 +490,7 @@ namespace WinBGMuter
             DarkModeCheckbox.Location = new Point(3, 4);
             DarkModeCheckbox.Margin = new Padding(3, 4, 3, 4);
             DarkModeCheckbox.Name = "DarkModeCheckbox";
-            DarkModeCheckbox.Size = new Size(138, 25);
+            DarkModeCheckbox.Size = new Size(145, 25);
             DarkModeCheckbox.TabIndex = 11;
             DarkModeCheckbox.Text = "Dark Mode";
             DarkModeCheckbox.UseVisualStyleBackColor = true;
@@ -445,7 +502,7 @@ namespace WinBGMuter
             AutostartCheckbox.Location = new Point(3, 103);
             AutostartCheckbox.Margin = new Padding(3, 4, 3, 4);
             AutostartCheckbox.Name = "AutostartCheckbox";
-            AutostartCheckbox.Size = new Size(138, 24);
+            AutostartCheckbox.Size = new Size(141, 24);
             AutostartCheckbox.TabIndex = 15;
             AutostartCheckbox.Text = "Enable Autostart";
             AutostartCheckbox.UseVisualStyleBackColor = true;
@@ -455,14 +512,15 @@ namespace WinBGMuter
             // 
             MuteConditionGroupBox.Controls.Add(MinimizedRadioButton);
             MuteConditionGroupBox.Controls.Add(BackGroundRadioButton);
+            MuteConditionGroupBox.Dock = DockStyle.Fill;
             MuteConditionGroupBox.Location = new Point(3, 138);
             MuteConditionGroupBox.Margin = new Padding(3, 4, 3, 4);
             MuteConditionGroupBox.Name = "MuteConditionGroupBox";
             MuteConditionGroupBox.Padding = new Padding(3, 4, 3, 4);
-            MuteConditionGroupBox.Size = new Size(129, 83);
+            MuteConditionGroupBox.Size = new Size(145, 83);
             MuteConditionGroupBox.TabIndex = 16;
             MuteConditionGroupBox.TabStop = false;
-            MuteConditionGroupBox.Text = "MuteCondition";
+            MuteConditionGroupBox.Text = "Mute Condition";
             // 
             // MinimizedRadioButton
             // 
@@ -483,10 +541,10 @@ namespace WinBGMuter
             BackGroundRadioButton.Location = new Point(11, 21);
             BackGroundRadioButton.Margin = new Padding(3, 4, 3, 4);
             BackGroundRadioButton.Name = "BackGroundRadioButton";
-            BackGroundRadioButton.Size = new Size(110, 24);
+            BackGroundRadioButton.Size = new Size(109, 24);
             BackGroundRadioButton.TabIndex = 0;
             BackGroundRadioButton.TabStop = true;
-            BackGroundRadioButton.Text = "BackGround";
+            BackGroundRadioButton.Text = "Background";
             BackGroundRadioButton.UseVisualStyleBackColor = true;
             BackGroundRadioButton.CheckedChanged += BackGroundRadioButton_CheckedChanged;
             // 
@@ -497,7 +555,7 @@ namespace WinBGMuter
             AdvancedButton.Location = new Point(3, 229);
             AdvancedButton.Margin = new Padding(3, 4, 3, 4);
             AdvancedButton.Name = "AdvancedButton";
-            AdvancedButton.Size = new Size(138, 47);
+            AdvancedButton.Size = new Size(145, 47);
             AdvancedButton.TabIndex = 17;
             AdvancedButton.Text = "Advanced...";
             AdvancedButton.UseVisualStyleBackColor = true;
@@ -528,17 +586,18 @@ namespace WinBGMuter
             // AdvancedMenuStrip
             // 
             AdvancedMenuStrip.ImageScalingSize = new Size(20, 20);
-            AdvancedMenuStrip.Items.AddRange(new ToolStripItem[] { HookMenuItem });
+            AdvancedMenuStrip.Items.AddRange(new ToolStripItem[] { EnableConsole });
             AdvancedMenuStrip.Name = "AdvancedMenuStrip";
-            AdvancedMenuStrip.Size = new Size(174, 30);
+            AdvancedMenuStrip.Size = new Size(181, 30);
             // 
-            // HookMenuItem
+            // EnableConsole
             // 
-            HookMenuItem.Checked = true;
-            HookMenuItem.CheckState = CheckState.Checked;
-            HookMenuItem.Name = "HookMenuItem";
-            HookMenuItem.Size = new Size(173, 26);
-            HookMenuItem.Text = "<placehoder>";
+            EnableConsole.Checked = true;
+            EnableConsole.CheckState = CheckState.Checked;
+            EnableConsole.Name = "EnableConsole";
+            EnableConsole.Size = new Size(180, 26);
+            EnableConsole.Text = "Enable Console";
+            EnableConsole.Click += EnableConsole_Click;
             // 
             // TrayIcon
             // 
@@ -615,6 +674,10 @@ namespace WinBGMuter
             groupBox2.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel6.ResumeLayout(false);
+            tableLayoutPanel6.PerformLayout();
+            tableLayoutPanel7.ResumeLayout(false);
+            tableLayoutPanel7.PerformLayout();
             groupBox3.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel5.PerformLayout();
@@ -648,8 +711,6 @@ namespace WinBGMuter
         private TextBox NeverMuteTextBox;
         private GroupBox groupBox2;
         private TableLayoutPanel tableLayoutPanel4;
-        private ListBox NeverMuteListBox;
-        private ListBox ProcessListListBox;
         private Button ReloadAudioButton;
         private Button SaveChangesButton;
         private TableLayoutPanel tableLayoutPanel2;
@@ -669,6 +730,12 @@ namespace WinBGMuter
         private RadioButton BackGroundRadioButton;
         private Button AdvancedButton;
         private ContextMenuStrip AdvancedMenuStrip;
-        private ToolStripMenuItem HookMenuItem;
+        private ToolStripMenuItem EnableConsole;
+        private TableLayoutPanel tableLayoutPanel6;
+        private ListBox ProcessListListBox;
+        private Label label2;
+        private TableLayoutPanel tableLayoutPanel7;
+        private ListBox NeverMuteListBox;
+        private Label label3;
     }
 }

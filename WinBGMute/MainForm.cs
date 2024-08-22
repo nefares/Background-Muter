@@ -513,8 +513,8 @@ namespace WinBGMuter
             this.Text += " - v" + fvi.ProductVersion;
 
             m_keepAliveTimer.Elapsed += KeepAliveTimer_Tick;
-            m_keepAliveTimer.AutoReset = true;  
-            m_keepAliveTimer.Enabled = true;    
+            m_keepAliveTimer.AutoReset = true;
+            m_keepAliveTimer.Enabled = true;
 
 
         }
@@ -788,6 +788,25 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
                 this.WindowState = FormWindowState.Minimized;
                 this.MainForm_Resize(sender, e);
                 //if (!this.IsHandleCreated) CreateHandle();
+            }
+        }
+
+        private void tableLayoutPanel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void EnableConsole_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableConsole = ConsoleLogging.Checked;
+
+            if (ConsoleLogging.Checked)
+            {
+                LoggingEngine.RestoreDefault();
+            }
+            else
+            {
+                LoggingEngine.SetEngine(InternalLog, InternalLogLine);
             }
         }
     }

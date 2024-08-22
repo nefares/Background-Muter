@@ -15,7 +15,7 @@ You can add exceptions for which applications are never muted.
 * Works out of the box with default settings
 * Add exceptions for applications to never be muted
 * Minimize to tray icon
-* Dark Mode (Experimental) 
+* Dark Mode 
 
 # Requirements
 * Requires DotNet 6.0 to work (install here https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
@@ -28,7 +28,8 @@ You can add exceptions for which applications are never muted.
  - **Activate Logger**: Enables or disables logging
  - **Enable Console**: spawns a windows console for logging and debugging
  - **Restore Defaults**: overrides existing settings and restores default settings
- - **Enable Dark Mode**: enables a (very) experimental dark mode
+ - **Enable Dark Mode**: enables an experimental dark mode
+ - **Mute Condition**: Modifies the mute condition. "Background" is default, and mutes apps in the background. "Minimized" is an alternative mode, which only mutes apps when they are minimized.
  - **Minimize to Tray** : minimize the application and it will automatically minimize to tray. Double clicking restores the window, and mouse right click shows a context menu. 
 
 # License
