@@ -3,6 +3,11 @@
     "WinBGMuter": {
       "commandName": "Project",
       "nativeDebugging": true
+    },
+    "AutoRun": {
+      "commandName": "Project",
+      "commandLineArgs": "--startMinimized",
+      "nativeDebugging": true
     }
   }
 }
