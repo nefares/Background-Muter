@@ -59,15 +59,5 @@ namespace WinBGMuter.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap play_regular_24 {
-            get {
-                object obj = ResourceManager.GetObject("play-regular-24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
