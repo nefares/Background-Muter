@@ -20,6 +20,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Timers;
 
 namespace WinBGMuter
 {
@@ -74,6 +75,9 @@ namespace WinBGMuter
         // @todo untested whether this works
         private static string m_previous_fname = "wininit";
         private static int m_previous_fpid = -1;
+
+        // keep alive timer @todo replace the Forms timer with the System.Timer
+        private static System.Timers.Timer m_keepAliveTimer = new System.Timers.Timer(600000);
 
 
         private void InternalLog(object olog, object? ocolor = null, object? ofont = null)
@@ -507,6 +511,11 @@ namespace WinBGMuter
 
 
             this.Text += " - v" + fvi.ProductVersion;
+
+            m_keepAliveTimer.Elapsed += KeepAliveTimer_Tick;
+            m_keepAliveTimer.AutoReset = true;  
+            m_keepAliveTimer.Enabled = true;    
+
 
         }
 

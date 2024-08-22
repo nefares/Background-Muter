@@ -90,7 +90,6 @@ namespace WinBGMuter
             aboutToolStripMenuItem = new ToolStripMenuItem();
             CloseMenuTray = new ToolStripMenuItem();
             MuterTimer = new System.Windows.Forms.Timer(components);
-            KeepAliveTimer = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             TopTableLayout.SuspendLayout();
@@ -590,12 +589,6 @@ namespace WinBGMuter
             MuterTimer.Interval = 250;
             MuterTimer.Tick += MuterTimer_Tick;
             // 
-            // KeepAliveTimer
-            // 
-            KeepAliveTimer.Enabled = true;
-            KeepAliveTimer.Interval = 600000;
-            KeepAliveTimer.Tick += KeepAliveTimer_Tick;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -677,6 +670,5 @@ namespace WinBGMuter
         private Button AdvancedButton;
         private ContextMenuStrip AdvancedMenuStrip;
         private ToolStripMenuItem HookMenuItem;
-        private System.Windows.Forms.Timer KeepAliveTimer;
     }
 }
