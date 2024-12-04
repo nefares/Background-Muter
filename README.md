@@ -23,6 +23,7 @@ You can add exceptions for which applications are never muted.
 * Requires DotNet 6.0 to work (install here https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
 # Getting Started
+ - Download **WinBGMuter.zip** from the [Releases](https://github.com/nefares/Background-Muter/releases/latest) page, extract it and open the extracted folder.
  - Run **WinBGMuter.exe**. The application will automatically start muting background processes with default settings.
  - To **add or remove application exceptions** either:
 	 - Directly add/remove items in the text box under **"Mute Exceptions"**
