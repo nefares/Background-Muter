@@ -66,6 +66,8 @@ namespace WinBGMuter
         private ForegroundProcessManager m_processManager;
 
         private string m_neverMuteList;
+        private string m_onlyMuteList;
+        private bool m_isWhitelistMode = true;
         private bool m_settingsChanged = false;
         private bool m_enableMiniStart = false;
         private bool m_enableDemo = false;
@@ -167,8 +169,26 @@ namespace WinBGMuter
                     */
                     string pname = proc.ProcessName;
 
-                    //add proc name to ListBox if it will be muted
-                    if (!NeverMuteListBox.Items.Contains(pname))
+                    //add proc name to ListBox based on current mode
+                    bool shouldAddToList = false;
+                    if (m_isWhitelistMode)
+                    {
+                        // Whitelist mode: Show processes that will be muted (not in whitelist)
+                        if (!m_neverMuteList.Contains(pname))
+                        {
+                            shouldAddToList = true;
+                        }
+                    }
+                    else
+                    {
+                        // Blacklist mode: Only show processes in blacklist
+                        if (!m_onlyMuteList.Contains(pname))
+                        {
+                            shouldAddToList = true;
+                        }
+                    }
+
+                    if (shouldAddToList && !ProcessListListBox.Items.Contains(pname))
                     {
                         ProcessListListBox.Items.Add(pname);
                     }
@@ -249,17 +269,42 @@ namespace WinBGMuter
                     string log_output = InlineMuteProcList(audio_proc_list, false, audio_pid);
                     LoggingEngine.LogLine($"[+] Unmuting foreground process {audio_pname}({audio_pid}) {log_output} ", Color.BlueViolet);
                 }
-                // mute all other processes (with an audio channel), except  the ones on the neverMuteList
+                // Handle muting logic based on whitelist/blacklist mode
                 else
                 {
-                    if (m_neverMuteList.Contains(audio_pname))
+                    bool shouldMute = false;
+                    bool shouldSkip = false;
+
+                    if (m_isWhitelistMode)
                     {
-                        //LoggingEngine.LogLine($" [!] Process {audio_pname}({audio_pid}) skipped ", Color.BlueViolet);
-                        log_skipped += audio_pname + ", ";
+                        // Whitelist mode: All apps will be muted except those in whitelist
+                        if (m_neverMuteList.Contains(audio_pname))
+                        {
+                            shouldSkip = true;
+                            log_skipped += audio_pname + ", ";
+                        }
+                        else
+                        {
+                            shouldMute = true;
+                        }
                     }
                     else
                     {
-                        // if not on mute list and 
+                        // Blacklist mode: Only apps in blacklist will be muted
+                        if (m_onlyMuteList.Contains(audio_pname))
+                        {
+                            shouldMute = true;
+                        }
+                        else
+                        {
+                            shouldSkip = true;
+                            log_skipped += audio_pname + ", ";
+                        }
+                    }
+
+                    if (shouldMute)
+                    {
+                        // Check mute condition (background or minimized)
                         if (!m_isMuteConditionBackground)
                         {
                             // if minimize option AND iconic
@@ -279,10 +324,15 @@ namespace WinBGMuter
                         }
                         else
                         {
-                            //if mute condition is background and not on mute list
+                            // if mute condition is background
                             InlineMuteProcList(audio_proc_list, true, audio_pid);
                             log_muted += audio_pname + ", ";
                         }
+                    }
+                    else if (shouldSkip)
+                    {
+                        // Ensure the application is unmuted
+                        InlineMuteProcList(audio_proc_list, false, audio_pid);
                     }
                 }
             }
@@ -450,7 +500,20 @@ namespace WinBGMuter
         private void ReloadSettings(object sender, EventArgs e)
         {
             m_neverMuteList = Properties.Settings.Default.NeverMuteProcs;
-            NeverMuteTextBox.Text = m_neverMuteList;
+            m_onlyMuteList = Properties.Settings.Default.OnlyMuteProcs;
+            m_isWhitelistMode = Properties.Settings.Default.IsWhitelistMode;
+
+            // Set checkbox and text content based on current mode
+            BlacklistModeCheckbox.Checked = !m_isWhitelistMode;
+
+            if (m_isWhitelistMode)
+            {
+                NeverMuteTextBox.Text = m_neverMuteList;
+            }
+            else
+            {
+                NeverMuteTextBox.Text = m_onlyMuteList;
+            }
 
             LoggerCheckbox.Checked = Properties.Settings.Default.EnableLogging;
             ConsoleLogging.Checked = Properties.Settings.Default.EnableConsole;
@@ -527,17 +590,24 @@ namespace WinBGMuter
 
         private void PopulateNeverMuteListBox()
         {
-            string[] neverMuteList = m_neverMuteList.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
+            string[] muteList;
+            if (m_isWhitelistMode)
+            {
+                muteList = m_neverMuteList.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                label3.Text = "🔕Never Muted";
+            }
+            else
+            {
+                muteList = m_onlyMuteList.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                label3.Text = "🔇Only Muted";
+            }
 
             NeverMuteListBox.Items.Clear();
 
-            foreach (string neverMuteEntry in neverMuteList)
+            foreach (string muteEntry in muteList)
             {
-                NeverMuteListBox.Items.Add(neverMuteEntry);
+                NeverMuteListBox.Items.Add(muteEntry);
             }
-
-
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -558,8 +628,18 @@ namespace WinBGMuter
         private void NeverMuteTextBox_TextChanged(object sender, EventArgs e)
         {
             PopulateNeverMuteListBox();
-            m_neverMuteList = NeverMuteTextBox.Text;
-            Properties.Settings.Default.NeverMuteProcs = m_neverMuteList;
+
+            if (m_isWhitelistMode)
+            {
+                m_neverMuteList = NeverMuteTextBox.Text;
+                Properties.Settings.Default.NeverMuteProcs = m_neverMuteList;
+            }
+            else
+            {
+                m_onlyMuteList = NeverMuteTextBox.Text;
+                Properties.Settings.Default.OnlyMuteProcs = m_onlyMuteList;
+            }
+
             ReloadMuter();
         }
 
@@ -769,6 +849,30 @@ along with this program.If not, see < https://www.gnu.org/licenses/>
             Properties.Settings.Default.IsMuteConditionBackground = false;
             m_isMuteConditionBackground = false;
             ReloadMuter();
+        }
+
+        private void BlacklistModeCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (BlacklistModeCheckbox.Checked)
+            {
+                // Switch to blacklist mode
+                m_isWhitelistMode = false;
+                Properties.Settings.Default.IsWhitelistMode = false;
+
+                NeverMuteTextBox.Text = m_onlyMuteList;
+                PopulateNeverMuteListBox();
+                ReloadMuter();
+            }
+            else
+            {
+                // Switch to whitelist mode
+                m_isWhitelistMode = true;
+                Properties.Settings.Default.IsWhitelistMode = true;
+
+                NeverMuteTextBox.Text = m_neverMuteList;
+                PopulateNeverMuteListBox();
+                ReloadMuter();
+            }
         }
 
         private void AdvancedButton_MouseClick(object sender, MouseEventArgs e)
