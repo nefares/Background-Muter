@@ -149,22 +149,13 @@ namespace WinBGMuter
             // clear process list
             ProcessListListBox.Items.Clear();
 
-            // get a process PID list of processes with an audio channel
-            int[] audio_pids = m_volumeMixer.GetPIDs();
-
-            // populate dictionary audio_procs for each PID in audio_pids with KEY=<PID>, VALUE=tuple(<PROCESS_NAME>, <Process>)
-            foreach (var pid in audio_pids)
+            foreach (System.Diagnostics.Process proc in System.Diagnostics.Process.GetProcesses())
             {
+                //Only when title exists
+                if (proc.MainWindowTitle.Length == 0) continue;
+                int pid = proc.Id;
                 try
                 {
-                    Process proc = Process.GetProcessById(pid);
-                    /*
-                    if (proc.HasExited)
-                    {
-                        LoggingEngine.LogLine($"[!] PID with audio channel {pid} has exited! This will likely trigger an error");
-                    }
-
-                    */
                     string pname = proc.ProcessName;
 
                     //add proc name to ListBox if it will be muted
