@@ -20,7 +20,7 @@ You can add exceptions for which applications are never muted.
 * Dark Mode 
 
 # Requirements
-* Requires DotNet 6.0 to work (install here https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* Requires DotNet 8.0 to work (install here https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 # Getting Started
  - Run **WinBGMuter.exe**. The application will automatically start muting background processes with default settings.
