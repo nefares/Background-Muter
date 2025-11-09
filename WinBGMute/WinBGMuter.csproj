@@ -1,38 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>res\bgm_muted.ico</ApplicationIcon>
     <DebugType>none</DebugType>
-    <PackageLicenseFile>X:\01_Projects\Background Muter\COPYING</PackageLicenseFile>
+    <PackageLicenseFile>..\COPYING</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
     <Optimize>False</Optimize>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>portable</DebugType>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="res\bgm_muted.ico" />
   </ItemGroup>
-
   <ItemGroup>
+    <None Include="..\.github\workflows\codeql-analysis.yml" Link="codeql-analysis.yml" />
+    <None Include="..\.github\workflows\dotnet.yml" Link="dotnet.yml" />
+    <None Include="..\.github\workflows\tagged-release.yml" Link="tagged-release.yml" />
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -45,19 +42,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
 </Project>

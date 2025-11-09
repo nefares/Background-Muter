@@ -14,13 +14,13 @@ jobs:
         shell: pwsh
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: Get Latest Tag
       id: get-latest-tag
@@ -56,7 +56,7 @@ jobs:
         # Filename for archive
         filename: WinBGMuter.zip
         # Base path for archive files
-        path: .\WinBGMute\bin\Release\net6.0-windows\publish\. # optional, default is .
+        path: .\WinBGMute\bin\Release\net8.0-windows\publish\. # optional, default is .
         # Working directory before zipping
         directory: .  # optional, default is .
         # List of excluded files / directories
@@ -69,16 +69,12 @@ jobs:
       
     - name: Run
       shell: powershell
-      run: Start-Process -FilePath .\WinBGMute\bin\Release\net6.0-windows\publish\WinBGMuter.exe -WorkingDirectory .\WinBGMute\bin\Release\net6.0-windows\publish\
+      run: Start-Process -FilePath .\WinBGMute\bin\Release\net8.0-windows\publish\WinBGMuter.exe -WorkingDirectory .\WinBGMute\bin\Release\net8.0-windows\publish\
 
     - name: Sleep
       shell: powershell
       run: Start-Sleep -s 10
       
-    - name: Screenshot
-      uses: OrbitalOwen/desktop-screenshot-action@0.1
-      with:
-        file-name: screenshot.jpg
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@v1.2.1
       with:
@@ -88,7 +84,6 @@ jobs:
         title: "${{ steps.bump-semver.outputs.new_version }}"
         files: |
           WinBGMuter.zip
-          screenshot.jpg
 
         
 
