@@ -75,10 +75,6 @@ jobs:
       shell: powershell
       run: Start-Sleep -s 10
       
-    - name: Screenshot
-      uses: OrbitalOwen/desktop-screenshot-action@0.1
-      with:
-        file-name: screenshot.jpg
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@v1.2.1
       with:
@@ -88,7 +84,6 @@ jobs:
         title: "${{ steps.bump-semver.outputs.new_version }}"
         files: |
           WinBGMuter.zip
-          screenshot.jpg
 
         
 
