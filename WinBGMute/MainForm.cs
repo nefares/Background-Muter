@@ -149,6 +149,11 @@ namespace WinBGMuter
             // clear process list
             ProcessListListBox.Items.Clear();
 
+            if (m_volumeMixer == null)
+            {
+                LoggingEngine.LogLine("[-] Volume Mixer failed to initialize. Muting functionality will not work!", loglevel: LoggingEngine.LOG_LEVEL_TYPE.LOG_ERROR);
+                return;
+            }
             // get a process PID list of processes with an audio channel
             int[] audio_pids = m_volumeMixer.GetPIDs();
 
@@ -483,6 +488,19 @@ namespace WinBGMuter
             LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_DEBUG;
             LoggingEngine.HasDateTime = true;
             LoggingEngine.LogLine("Initializing...");
+
+            if (m_enableDemo == true)
+            {
+                m_neverMuteList = Properties.Settings.Default.NeverMuteProcs;
+                NeverMuteTextBox.Text = m_neverMuteList;
+                LoggerCheckbox.Checked = Properties.Settings.Default.EnableLogging;
+                LoggerCheckbox_CheckedChanged(sender, EventArgs.Empty);
+              
+                m_processManager = new ForegroundProcessManager();
+                m_processManager.Init();
+
+                return;
+            }
 
             m_volumeMixer = new VolumeMixer();
             m_processManager = new ForegroundProcessManager();

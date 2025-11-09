@@ -14,13 +14,13 @@ jobs:
         shell: pwsh
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: Get Latest Tag
       id: get-latest-tag
@@ -56,7 +56,7 @@ jobs:
         # Filename for archive
         filename: WinBGMuter.zip
         # Base path for archive files
-        path: .\WinBGMute\bin\Release\net6.0-windows\publish\. # optional, default is .
+        path: .\WinBGMute\bin\Release\net8.0-windows\publish\. # optional, default is .
         # Working directory before zipping
         directory: .  # optional, default is .
         # List of excluded files / directories

@@ -8,6 +8,11 @@
       "commandName": "Project",
       "commandLineArgs": "--startMinimized",
       "nativeDebugging": true
+    },
+    "Demo": {
+      "commandName": "Project",
+      "commandLineArgs": "--demo",
+      "nativeDebugging": true
     }
   }
 }
