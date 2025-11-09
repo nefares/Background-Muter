@@ -5,6 +5,12 @@
     <Setting Name="NeverMuteProcs" Type="System.String" Scope="User">
       <Value Profile="(Default)">chrome,mpc-hc64,vlc,firefox,WWAHost,msedge,mpv,PotPlayerMini64,AMPLibraryAgent</Value>
     </Setting>
+    <Setting Name="OnlyMuteProcs" Type="System.String" Scope="User">
+      <Value Profile="(Default)"></Value>
+    </Setting>
+    <Setting Name="IsWhitelistMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="EnableLogging" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

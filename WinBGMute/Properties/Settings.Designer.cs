@@ -37,6 +37,30 @@ namespace WinBGMuter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OnlyMuteProcs {
+            get {
+                return ((string)(this["OnlyMuteProcs"]));
+            }
+            set {
+                this["OnlyMuteProcs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsWhitelistMode {
+            get {
+                return ((bool)(this["IsWhitelistMode"]));
+            }
+            set {
+                this["IsWhitelistMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EnableLogging {
             get {
