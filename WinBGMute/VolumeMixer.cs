@@ -1,4 +1,4 @@
-﻿/* Modified from original code by Simon Mourier and Anders Carstensen
+/* Modified from original code by Simon Mourier and Anders Carstensen
  https://stackoverflow.com/questions/20938934/controlling-applications-volume-by-process-id */
 
 /*
@@ -169,7 +169,25 @@ namespace WinBGMuter
                     AudioDevice.mgr = (IAudioSessionManager2)AudioDevice.o;
                 }
 
-                //code takes too long
+                // [FIX] Release old volumeSessionList COM objects before clearing
+                if (AudioDevice.volumeSessionList is not null && AudioDevice.volumeSessionList.Count > 0)
+                {
+                    foreach (var vs in AudioDevice.volumeSessionList)
+                    {
+                        if (vs.Value is not null)
+                        {
+                            try { Marshal.ReleaseComObject(vs.Value); } catch { }
+                        }
+                    }
+                    AudioDevice.volumeSessionList.Clear();
+                }
+
+                // [FIX] Release old sessionEnumerator before getting new one
+                if (AudioDevice.sessionEnumerator is not null)
+                {
+                    try { Marshal.ReleaseComObject(AudioDevice.sessionEnumerator); } catch { }
+                    AudioDevice.sessionEnumerator = null;
+                }
 
                 AudioDevice.mgr.GetSessionEnumerator(out AudioDevice.sessionEnumerator);
                 if (AudioDevice.sessionEnumerator == null)
@@ -178,9 +196,11 @@ namespace WinBGMuter
                 }
                 AudioDevice.sessionEnumerator.GetCount(out AudioDevice.count);
 
+                if (AudioDevice.volumeSessionList == null)
+                {
+                    AudioDevice.volumeSessionList = new Dictionary<int, ISimpleAudioVolume?>();
+                }
 
-
-                AudioDevice.volumeSessionList.Clear();
                 ISimpleAudioVolume volumeControl = null;
                 for (int i = 0; i < AudioDevice.count; i++)
                 {
@@ -193,12 +213,12 @@ namespace WinBGMuter
 
                     if (AudioDevice.volumeSessionList.ContainsKey(cpid))
                     {
+                        // [FIX] Release old COM object before replacing
+                        if (AudioDevice.volumeSessionList[cpid] is not null)
+                        {
+                            try { Marshal.ReleaseComObject(AudioDevice.volumeSessionList[cpid]); } catch { }
+                        }
                         AudioDevice.volumeSessionList[cpid] = volumeControl;
-
-                        /*
-                        LoggingEngine.LogLine($"[!] PID {cpid} Exists ");
-                        AudioDevice.volumeSessionList.Remove(cpid);
-                        */
                     }
                     else
                     {
