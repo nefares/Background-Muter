@@ -44,7 +44,6 @@ namespace WinBGMuter
 
             float level;
             volume.GetMasterVolume(out level);
-            Marshal.ReleaseComObject(volume);
             return level * 100;
         }
 
@@ -56,7 +55,6 @@ namespace WinBGMuter
 
             bool mute;
             volume.GetMute(out mute);
-            Marshal.ReleaseComObject(volume);
             return mute;
         }
 
@@ -68,7 +66,6 @@ namespace WinBGMuter
 
             Guid guid = Guid.Empty;
             volume.SetMasterVolume(level / 100, ref guid);
-            Marshal.ReleaseComObject(volume);
         }
 
         public void SetApplicationMute(int pid, bool mute)
@@ -79,7 +76,6 @@ namespace WinBGMuter
 
             Guid guid = Guid.Empty;
             volume.SetMute(mute, ref guid);
-            Marshal.ReleaseComObject(volume);
             //LoggingEngine.Log((mute ? "M+" : "M-") + pid.ToString());
         }
 
