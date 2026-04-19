@@ -106,13 +106,18 @@ namespace WinBGMuter
             List<object> com_objects = new List<object>();
             if (unloadDevice)
             {
-
                 com_objects.Add(AudioDevice.sessionEnumerator);
-                com_objects.Add(AudioDevice.mgr);
-                com_objects.Add(AudioDevice.speakers);
-                com_objects.Add(AudioDevice.deviceEnumerator);
-            }
+                AudioDevice.sessionEnumerator = null!;
 
+                com_objects.Add(AudioDevice.mgr);
+                AudioDevice.mgr = null!;
+
+                com_objects.Add(AudioDevice.speakers);
+                AudioDevice.speakers = null!;
+
+                com_objects.Add(AudioDevice.deviceEnumerator);
+                AudioDevice.deviceEnumerator = null!;
+            }
 
             if (AudioDevice.volumeSessionList is not null)
             {
@@ -120,10 +125,11 @@ namespace WinBGMuter
                 {
                     IAudioSessionControl2 ctl = vs.Value as IAudioSessionControl2;
                     com_objects.Add(ctl);
-
                 }
+                // Null out entries so a second call (e.g. from the finalizer) is
+                // a safe no-op – the null guard below prevents double-release.
+                AudioDevice.volumeSessionList.Clear();
             }
-            
 
             foreach (var obj in com_objects)
             {
@@ -131,7 +137,6 @@ namespace WinBGMuter
                 {
                     Marshal.ReleaseComObject(obj);
                 }
-                
             }
         }
 

@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinBGMuter", "WinBGMute\WinBGMuter.csproj", "{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinBGMuterTests", "WinBGMuterTests\WinBGMuterTests.csproj", "{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinBGMute", "WinBGMute", "{3746566C-F24E-93E8-0858-30D4B165E715}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,18 @@ Global
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x64.Build.0 = Release|Any CPU
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x86.ActiveCfg = Release|Any CPU
 		{AFC9DB32-A0E0-40AB-A13E-FA4A8B827C21}.Release|x86.Build.0 = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|x64.Build.0 = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B02ECAF-7F68-430F-B99B-8C5AB5946CF9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
