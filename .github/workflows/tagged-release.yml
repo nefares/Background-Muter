@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 10.0.x
     
     - name: Get Latest Tag
       id: get-latest-tag
@@ -56,7 +56,7 @@ jobs:
         # Filename for archive
         filename: WinBGMuter.zip
         # Base path for archive files
-        path: .\WinBGMute\bin\Release\net8.0-windows\publish\. # optional, default is .
+        path: .\WinBGMute\bin\Release\net10.0-windows\publish\. # optional, default is .
         # Working directory before zipping
         directory: .  # optional, default is .
         # List of excluded files / directories
