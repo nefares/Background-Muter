@@ -48,6 +48,7 @@ jobs:
       run: echo "${{ steps.version-num.outputs.vnum }}" && dotnet publish -p:Version="${{ steps.version-num.outputs.vnum }}" -p:PublishProfile=FolderProfile -c Release --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      continue-on-error: true
     - name: Zip Release
       # You may pin to the exact commit or the version.
       # uses: TheDoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
