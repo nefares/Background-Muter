@@ -78,6 +78,12 @@ namespace WinBGMuter
         private static string m_previous_fname = "wininit";
         private static int m_previous_fpid = -1;
 
+        // After an audio device change (e.g. Bluetooth headphones connecting),
+        // apps recreate their audio sessions on the new device over a few seconds,
+        // so muting is re-applied periodically for a short window.
+        private DateTime m_deviceReapplyUntil = DateTime.MinValue;
+        private DateTime m_nextDeviceReapply = DateTime.MinValue;
+
         // keep alive timer @todo replace the Forms timer with the System.Timer
         private static System.Timers.Timer m_keepAliveTimer = new System.Timers.Timer(600000);
 
@@ -162,6 +168,7 @@ namespace WinBGMuter
             // populate dictionary audio_procs for each PID in audio_pids with KEY=<PID>, VALUE=tuple(<PROCESS_NAME>, <Process>)
             foreach (var pid in audio_pids)
             {
+                bool processExited = false;
                 try
                 {
                     Process proc = Process.GetProcessById(pid);
@@ -204,13 +211,19 @@ namespace WinBGMuter
                     //add all processes of the same name as pname to the audio_procs corresponding to PID
                     audio_procs.Add(pid, (pname, procs_similar));
                 }
+                catch (ArgumentException)
+                {
+                    // The process has exited but Windows still lists its audio session.
+                    // There is nothing to mute, so skip it without a full audio reload.
+                    processExited = true;
+                }
                 catch (Exception ex)
                 {
                     HandleError(ex, (object)pid);
                 }
                 finally
                 {
-                    if (!audio_procs.ContainsKey(pid))
+                    if (!processExited && !audio_procs.ContainsKey(pid))
                     {
                         LoggingEngine.LogLine($"[-] PID with audio channel {pid} not found in process list (most likely due to an error)");
                         //throw new Exception();
@@ -714,6 +727,50 @@ namespace WinBGMuter
         private void MuterTimer_Tick(object sender, EventArgs e)
         {
             MuterCallback((sender, e));
+            HandleAudioDeviceChanges();
+        }
+
+        private void HandleAudioDeviceChanges()
+        {
+            if (m_volumeMixer == null || m_processManager == null)
+                return;
+
+            DateTime now = DateTime.Now;
+
+            if (m_volumeMixer.ConsumeDeviceChange())
+            {
+                // Windows sends a burst of notifications per switch; log once per burst.
+                if (now >= m_deviceReapplyUntil)
+                    LoggingEngine.LogLine("[!] Audio device change detected, re-applying muting", Color.Orange);
+                m_deviceReapplyUntil = now.AddSeconds(10);
+                m_nextDeviceReapply = now.AddMilliseconds(500);
+            }
+
+            if (now < m_deviceReapplyUntil && now >= m_nextDeviceReapply)
+            {
+                m_nextDeviceReapply = now.AddSeconds(1);
+
+                int fpid = m_processManager.PollForegroundProcessId();
+                if (fpid <= 0)
+                    fpid = m_previous_fpid;
+                if (fpid <= 0)
+                    return;
+
+                LoggingEngine.LOG_LEVEL_TYPE currentLogLevel = LoggingEngine.LogLevel;
+                LoggingEngine.LogLevel = LoggingEngine.LOG_LEVEL_TYPE.LOG_NONE;
+                try
+                {
+                    RunMuter(fpid);
+                }
+                catch (Exception ex)
+                {
+                    HandleError(ex);
+                }
+                finally
+                {
+                    LoggingEngine.LogLevel = currentLogLevel;
+                }
+            }
         }
 
         private void CloseMenuTray_Click(object sender, EventArgs e)
